@@ -1,0 +1,24 @@
+image: tiangolo/docker-with-compose
+
+before_script:
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+stages:
+  - build
+  - deploy
+# Oh yeah
+build-prod:
+  stage: build
+  script:
+    - docker build -t registry.gitlab.com/niclastimmdev/fast-template .
+    - docker push registry.gitlab.com/niclastimmdev/fast-template
+  tags:
+    - prod
+
+deploy-prod:
+  stage: deploy
+  script:
+    - docker stack rm fast-api
+    - docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml fast-api
+  tags:
+    - prod
