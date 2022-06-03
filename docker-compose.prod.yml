@@ -41,8 +41,8 @@ services:
 # NETWORKS
 networks:
   fast-template:
+    #attachable: true
     driver: overlay
-    attachable: true
   traefik-public:
     external: true
 
