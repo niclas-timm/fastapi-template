@@ -5,12 +5,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: Aktuelle Datei",
+      "name": "Python: Module",
       "type": "python",
       "request": "launch",
-      "program": "./app/main.py",
-      "console": "integratedTerminal",
-      "justMyCode": true
+      "module": "uvicorn",
+      "args": ["app.main:app", "--reload", "--port", "3000"]
     }
   ]
 }

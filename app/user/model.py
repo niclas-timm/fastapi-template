@@ -1,6 +1,6 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 
-from db.db import Base
+from app.db.db import Base
 
 
 class UserModel(Base):
