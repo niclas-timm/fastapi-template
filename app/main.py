@@ -10,4 +10,4 @@ app = FastAPI()
 
 @app.get('/')
 def front():
-    return {"Hello:": "World"}
+    return {"Hello:": "Updated shit"}
