@@ -1,0 +1,56 @@
+version: "3"
+services:
+  # Database
+  db:
+    volumes:
+      - fastapi-template:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - fast-template
+
+  # Redis
+  redis:
+    ports:
+      - "6379:6379"
+    networks:
+      - fast-template
+
+  # Postgres admin
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    logging:
+      driver: none
+    depends_on:
+      - db
+    ports:
+      - "5050:80"
+    networks:
+      - fast-template
+
+  # MAILHOG
+  mailhog_app:
+    image: mailhog/mailhog
+    logging:
+      driver: "none"
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - fast-template
+
+# NETWORKS
+networks:
+  fast-template:
+    driver: bridge
+  traefik-public:
+    external: false
+
+# VOLUMES
+volumes:
+  fastapi-template:
+    driver: local
