@@ -20,6 +20,6 @@ deploy-prod:
   stage: deploy
   script:
     # - docker stack rm fast-api
-    - docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml fast-api
+    - docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml --with-registry-auth fast-api
   tags:
     - prod
