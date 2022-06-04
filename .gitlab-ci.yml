@@ -14,7 +14,7 @@ build-prod:
     - docker push registry.gitlab.com/niclastimmdev/fast-template
   tags:
     - prod
-
+#
 deploy-prod:
   stage: deploy
   script:
