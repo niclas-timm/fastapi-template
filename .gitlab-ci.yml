@@ -6,7 +6,7 @@ before_script:
 stages:
   - build
   - deploy
-# Oh yeah
+
 build-prod:
   stage: build
   script:
