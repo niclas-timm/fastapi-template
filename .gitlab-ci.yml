@@ -18,7 +18,7 @@ build-prod:
 deploy-prod:
   stage: deploy
   script:
-    - docker stack rm fast-api
+    # - docker stack rm fast-api
     - docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml fast-api
   tags:
     - prod
