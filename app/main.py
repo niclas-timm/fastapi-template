@@ -10,4 +10,4 @@ app = FastAPI()
 
 @app.get('/')
 def front():
-    return {"Arthur:": "Du bist ein Wichser"}
+    return "Hallo Arthur, du bist ein kleiner Wichser."
