@@ -1,7 +1,7 @@
 version: "3"
 services:
   api:
-    image: registry.gitlab.com/niclastimmdev/fast-api_fast-template:latest
+    image: registry.gitlab.com/niclastimmdev/fast-template:latest
     restart: unless-stopped
     deploy:
       mode: replicated
