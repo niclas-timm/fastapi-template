@@ -7,18 +7,23 @@ ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-class SecurityService():
-
-    def create_access_token(
+def create_access_token(
         subject: Union[str, Any]
-    ) -> str:
-        to_encode = {"sub": str(subject)}
-        encoded_jwt = jwt.encode(
-            to_encode, get_environment_var('JWT_TOKEN'), algorithm=ALGORITHM)
-        return encoded_jwt
+) -> str:
+    """ Generate user access token
 
-    def create_password_hash(password: str) -> str:
-        return pwd_context.hash(password)
+    Generate a JWT access token with the id of the user as the sub.
+    """
+    to_encode = {"sub": str(subject)}
+    secret = get_environment_var('JWT_TOKEN')
+    encoded_jwt = jwt.encode(
+        to_encode, secret, algorithm=ALGORITHM)
+    return encoded_jwt
 
-    def verify_password(plain_password: str, hashed_password: str) -> bool:
-        return pwd_context.verify(plain_password, hashed_password)
+
+def create_password_hash(password: str) -> str:
+    return pwd_context.hash(password)
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)

@@ -3,7 +3,8 @@ from app.core.crud_base import CRUDBase
 from app.user.model import UserModel
 from app.user.schema import UserCreate, UserUpdate
 from sqlalchemy.orm import Session
-from app.security.services import SecurityService
+from fastapi import HTTPException
+from app.security.services import create_access_token, verify_password, create_password_hash
 
 
 # class UserService(CRUDBase[UserModel, UserCreate, UserUpdate]):
@@ -24,7 +25,7 @@ def create_user(db: Session, new_user: UserCreate):
     """
     db_obj = UserModel(
         email=new_user.email,
-        password=SecurityService.create_password_hash(
+        password=create_password_hash(
             new_user.password),
         name=new_user.name,
         is_admin=new_user.is_admin,
@@ -33,3 +34,18 @@ def create_user(db: Session, new_user: UserCreate):
     db.commit()
     db.refresh(db_obj)
     return db_obj
+
+
+def user_login(db: Session, email: str, password: str) -> Optional[str]:
+    """ Log user in.
+
+    Log user in by email and password.
+    """
+    user = get_by_email(db, email)
+    if not user:
+        raise HTTPException(status_code=400, detail="Wrong email or password")
+    is_password_valid = verify_password(password, user.password)
+    if not is_password_valid:
+        raise HTTPException(status_code=400, detail="Wrong email or password")
+    return create_access_token(str(user.id))
+
