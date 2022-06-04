@@ -10,6 +10,7 @@ stages:
 build-prod:
   stage: build
   script:
+    - git pull origin main
     - docker build -t registry.gitlab.com/niclastimmdev/fast-template .
     - docker push registry.gitlab.com/niclastimmdev/fast-template
   tags:
