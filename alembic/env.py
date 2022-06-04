@@ -6,9 +6,6 @@ from sqlalchemy import engine_from_config
 from logging.config import fileConfig
 import sys
 
-#sys.path = ['', '..'] + sys.path[1:]
-print(sys.path)
-
 target_metadata = Base.metadata
 
 

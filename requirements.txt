@@ -4,3 +4,7 @@ sqlalchemy
 alembic
 python-dotenv
 psycopg2
+python-jose
+passlib
+pydantic[email]
+bcrypt

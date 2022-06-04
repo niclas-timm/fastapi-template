@@ -3,3 +3,4 @@ echo DB_HOST=$DB_HOST >> .env
 echo DB_PASSWORD=$DB_PASSWORD >> .env
 echo DB_PORT=$DB_PORT >> .env
 echo DB_NAME=$DB_NAME >> .env
+echo JWT_TOKEN=$JWT_TOKEN >> .env
