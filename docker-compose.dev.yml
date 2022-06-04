@@ -46,6 +46,7 @@ services:
 # NETWORKS
 networks:
   fast-template:
+    name: fast-template
     driver: bridge
   traefik-public:
     external: false

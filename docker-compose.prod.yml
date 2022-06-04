@@ -24,23 +24,24 @@ services:
       - db
     networks:
       - traefik-public
-      - fast-api_fast-template
+      - fast-template
 
   # Database
   db:
     volumes:
       - fastapi-template:/var/lib/postgresql/data
     networks:
-      - fast-api_fast-template
+      - fast-template
 
   # Redis
   redis:
     networks:
-      - fast-api_fast-template
+      - fast-template
 
 # NETWORKS
 networks:
-  fast-api_fast-template:
+  fast-template:
+    name: fast-template
     #attachable: true
     driver: overlay
   traefik-public:
