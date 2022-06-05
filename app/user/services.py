@@ -7,7 +7,10 @@ from fastapi import HTTPException
 from app.security.services import create_access_token, verify_password, create_password_hash
 
 
-# class UserService(CRUDBase[UserModel, UserCreate, UserUpdate]):
+def get_by_id(db: Session, user_id: str) -> Optional[UserModel]:
+    return db.query(UserModel).filter(UserModel.id == user_id).first()
+
+
 def get_by_email(db: Session, email: str) -> Optional[UserModel]:
     return db.query(UserModel).filter(UserModel.email == email).first()
 
@@ -48,4 +51,3 @@ def user_login(db: Session, email: str, password: str) -> Optional[str]:
     if not is_password_valid:
         raise HTTPException(status_code=400, detail="Wrong email or password")
     return create_access_token(str(user.id))
-
