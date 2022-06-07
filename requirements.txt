@@ -9,3 +9,5 @@ passlib
 pydantic[email]
 bcrypt
 python-multipart
+emails
+jinja2
