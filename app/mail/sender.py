@@ -1,7 +1,9 @@
 import emails
 from emails.template import JinjaTemplate
 from app.core.settings import get_environment_var
+from app.core import config
 from typing import Any, Dict, Optional
+from pathlib import Path
 
 
 def send_email(
@@ -29,8 +31,7 @@ def send_email(
 def send_test_email(email_to: str) -> None:
     project_name = "Fast API template"
     subject = f"{project_name} - Test email"
-    # with open(Path(settings.EMAIL_TEMPLATES_DIR) / "test_email.html") as f:
-    with open("./app/mail/templates/build/test_email.html") as f:
+    with open(Path(config.EMAIL_TEMPLATES_DIR) / "test_email.html") as f:
         template_str = f.read()
     send_email(
         email_to=email_to,

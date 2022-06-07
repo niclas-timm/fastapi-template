@@ -5,6 +5,7 @@ from app.user.schema import UserCreate, UserUpdate
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from app.security.services import create_access_token, verify_password, create_password_hash
+from app.user.service import mail as user_mail_service
 
 
 def get_by_id(db: Session, user_id: str) -> Optional[UserModel]:
@@ -36,6 +37,7 @@ def create_user(db: Session, new_user: UserCreate):
     db.add(db_obj)
     db.commit()
     db.refresh(db_obj)
+    user_mail_service.send_new_account_email(db_obj.email)
     return db_obj
 
 

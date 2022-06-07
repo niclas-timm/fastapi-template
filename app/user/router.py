@@ -32,7 +32,8 @@ def register_user(*, database: Session = Depends(db.get_db), new_user: user_sche
 
 @router.post('/token', response_model=TokenModel)
 async def login(*, database: Session = Depends(db.get_db), form_data: OAuth2PasswordRequestForm = Depends()):
-    token = user_login(db=database, email=form_data.username, password=form_data.password)
+    token = user_login(db=database, email=form_data.username,
+                       password=form_data.password)
     return {"access_token": token, "token_type": "bearer"}
 
 
