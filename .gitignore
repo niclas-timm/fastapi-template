@@ -2,3 +2,5 @@
 .env
 todo.txt
 /__pycache__
+
+debug.log
