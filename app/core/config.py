@@ -20,3 +20,6 @@ EMAILS_SMTP_HOST = get_environment_var('EMAILS_SMTP_HOST') or "localhost"
 EMAILS_PORT = get_environment_var('EMAILS_PORT') or 587
 EMAILS_USER = get_environment_var('EMAILS_USER') or 'FastAPI template'
 EMAILS_PASSWORD = get_environment_var('EMAILS_PASSWORD') or ""
+
+# Password
+PASSWORD_RESET_TOKEN_EXPIRE_MINUTES: int = 5

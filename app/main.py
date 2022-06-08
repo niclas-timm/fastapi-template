@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Depends, Response, status
+from fastapi import FastAPI
 from app.db.db import engine
-import app.db.models as models
+from app.db import models
 from app.api.routers import router
 
 models.Base.metadata.create_all(bind=engine)

@@ -8,7 +8,8 @@ from app.security.deps import get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
 from app.security.models import TokenModel
 from .service.verification import verify_email_token
-
+from .service import password as password_service
+from .service import mail as mail_service
 
 router = APIRouter(
     tags=['users']
@@ -52,3 +53,15 @@ def verify_user_email(token: str, db: Session = Depends(db.get_db)):
             detail='Invalid token provided'
         )
     return verify_email(email=email, db=db)
+
+
+@router.get('/request-password-reset')
+def request_password_reset(email: str, db: Session = Depends(db.get_db)):
+    user = get_by_email(db=db, email=email)
+    # For security reasons we don't send error msg if the user does not exist.
+    if not user:
+        return True
+    token = password_service.generate_password_reset_token(email)
+    mail_service.send_reset_password_email(
+        email_to=email, token=token)
+    return True
