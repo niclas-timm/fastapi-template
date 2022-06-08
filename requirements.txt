@@ -13,3 +13,4 @@ emails
 jinja2
 pylint
 aioredis[hiredis]
+flake8
