@@ -1,5 +1,5 @@
 from fastapi import HTTPException, status, Depends
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from app.core.config import get_environment_var
 from app.security.models import TokenData

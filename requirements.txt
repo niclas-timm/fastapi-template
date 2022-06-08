@@ -14,3 +14,4 @@ jinja2
 pylint
 aioredis[hiredis]
 flake8
+autoflake

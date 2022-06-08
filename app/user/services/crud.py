@@ -1,10 +1,8 @@
-from typing import Literal, Optional
-from app.core.crud_base import CRUDBase
+from typing import Optional
 from app.user.model import UserModel
-from app.user.schema import UserCreate, UserUpdate
+from app.user.schema import UserCreate
 from sqlalchemy.orm import Session
-from fastapi import HTTPException
-from app.security.services import create_access_token, verify_password, create_password_hash
+from app.security.services import create_password_hash
 from app.user.services import mail as user_mail_service
 
 

@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Any, Literal, Optional
+from typing import Literal, Optional
 from app.core import config as settings
 from jose import jwt
 from app.user.services.crud import get_by_email

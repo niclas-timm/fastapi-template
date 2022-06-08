@@ -1,4 +1,3 @@
-import asyncio
 import aioredis
 
 from app.core import config

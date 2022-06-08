@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Any, Optional
+from typing import Optional
 from app.core import config as settings
 from jose import jwt
 from sqlalchemy.orm import Session

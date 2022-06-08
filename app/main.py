@@ -1,5 +1,4 @@
-import logging
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from app.db.db import engine
 from app.db import models
 from app.api.routers import router
