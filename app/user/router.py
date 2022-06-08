@@ -2,11 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db import db
 from app.user import schema as user_schema
-from app.user.services import get_by_email, create_user, user_login
+from app.user.services import get_by_email, create_user, user_login, verify_email
 from app.user.model import UserModel
 from app.security.deps import get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
 from app.security.models import TokenModel
+from .service.verification import verify_email_token
 
 
 router = APIRouter(
@@ -40,3 +41,14 @@ async def login(*, database: Session = Depends(db.get_db), form_data: OAuth2Pass
 @router.get('/me', response_model=user_schema.UserResponse)
 def me(current_user: UserModel = Depends(get_current_user)):
     return current_user
+
+
+@router.get('/email/verify/')
+def verify_user_email(token: str, db: Session = Depends(db.get_db)):
+    email = verify_email_token(token)
+    if not email:
+        raise HTTPException(
+            status_code=400,
+            detail='Invalid token provided'
+        )
+    return verify_email(email=email, db=db)

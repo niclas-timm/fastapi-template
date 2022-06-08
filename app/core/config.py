@@ -4,7 +4,14 @@ from app.core.settings import get_environment_var
 PROJECT_NAME = get_environment_var('PROJECT_NAME') or "FastAPI Template"
 SERVER_HOST = get_environment_var('SERVER_HOST') or 'http://app.example.com'
 
+# JWT
+JWT_TOKEN = get_environment_var('JWT_TOKEN')
+JWT_EMAIL_VERIFICATION_TOKEN = get_environment_var(
+    'JWT_EMAIL_VERIFICATION_TOKEN')
+JWT_PASSWORD_RESET_TOKEN = get_environment_var('JWT_PASSWORD_RESET_TOKEN')
+
 # Email
+EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
 EMAILS_ENABLED = get_environment_var('EMAILS_ENABLED') or False
 EMAIL_TEMPLATES_DIR = "./app/mail/templates/build"
 EMAILS_FROM_NAME = get_environment_var(

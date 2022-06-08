@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Literal, Optional
 from app.core.crud_base import CRUDBase
 from app.user.model import UserModel
 from app.user.schema import UserCreate, UserUpdate
@@ -53,3 +53,13 @@ def user_login(db: Session, email: str, password: str) -> Optional[str]:
     if not is_password_valid:
         raise HTTPException(status_code=400, detail="Wrong email or password")
     return create_access_token(str(user.id))
+
+
+def verify_email(db: Session, email: str) -> Optional[Literal[True]]:
+    user = get_by_email(email=email, db=db)
+    if not user:
+        return None
+    user.email_verified = True
+    db.commit()
+    db.refresh(user)
+    return True

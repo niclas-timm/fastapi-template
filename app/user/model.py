@@ -11,6 +11,7 @@ class UserModel(Base):
     password = Column(String)
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
+    email_verified = Column(Boolean, default=False)
 
     class Config:
         orm_mode = True
