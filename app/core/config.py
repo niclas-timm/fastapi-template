@@ -22,4 +22,4 @@ EMAILS_USER = get_environment_var('EMAILS_USER') or 'FastAPI template'
 EMAILS_PASSWORD = get_environment_var('EMAILS_PASSWORD') or ""
 
 # Password
-PASSWORD_RESET_TOKEN_EXPIRE_MINUTES: int = 5
+PASSWORD_RESET_TOKEN_EXPIRE_HOURS: int = 1

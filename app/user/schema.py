@@ -50,3 +50,9 @@ class UserResponse(UserBase):
 class UserCredentials(BaseModel):
     email: EmailStr
     password: str
+
+
+class ResetPassword(BaseModel):
+    email: str
+    new_password: str
+    token: str

@@ -49,7 +49,7 @@ def send_reset_password_email(email_to: str, token: str) -> None:
             "project_name": config.PROJECT_NAME,
             "username": email_to,
             "email": email_to,
-            "valid_minutes": config.PASSWORD_RESET_TOKEN_EXPIRE_MINUTES,
+            "valid_hours": config.PASSWORD_RESET_TOKEN_EXPIRE_HOURS,
             "link": link,
         },
     )

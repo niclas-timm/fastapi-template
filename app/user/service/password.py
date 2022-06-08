@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 from app.core import config as settings
 from jose import jwt
 from ..services import get_by_email
@@ -20,7 +20,8 @@ def generate_password_reset_token(email: str) -> str:
     Returns:
         str: the encoded JWT token.
     """
-    delta = timedelta(minutes=settings.PASSWORD_RESET_TOKEN_EXPIRE_MINUTES)
+    delta = timedelta(
+        hours=settings.PASSWORD_RESET_TOKEN_EXPIRE_HOURS)
     now = datetime.utcnow()
     expires = now + delta
     exp = expires.timestamp()
@@ -39,12 +40,12 @@ def verify_password_reset_token(token: str) -> Optional[str]:
         return None
 
 
-def change_password(db: Session, email: str, new_pass: str):
+def change_password(db: Session, email: str, new_pass: str) -> Optional[Literal[True]]:
     user = get_by_email(email=email, db=db)
     if not user:
         return None
     hashed_pass = create_password_hash(new_pass)
     user.password = hashed_pass
     db.commit()
-    db.refresh()
-    return user
+    db.refresh(user)
+    return True

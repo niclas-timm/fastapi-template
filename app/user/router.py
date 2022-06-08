@@ -65,3 +65,19 @@ def request_password_reset(email: str, db: Session = Depends(db.get_db)):
     mail_service.send_reset_password_email(
         email_to=email, token=token)
     return True
+
+
+@router.post('/reset-password')
+def reset_password(data: user_schema.ResetPassword, db: Session = Depends(db.get_db)):
+    email_from_token = password_service.verify_password_reset_token(data.token)
+    if not email_from_token:
+        raise HTTPException(
+            status_code=400,
+            detail='Invalid token'
+        )
+    if not email_from_token == data.email:
+        raise HTTPException(
+            status_code=400,
+            detail='Invalid data'
+        )
+    return password_service.change_password(db=db, email=data.email, new_pass=data.new_password)
