@@ -7,6 +7,14 @@ from app.mail import sender
 
 
 def send_new_account_email(email_to: str) -> None:
+    """Send welcome email to new user.
+
+    Send an email to a newly created user and ask him/her
+    to verify their email address.
+
+    Args:
+        email_to (str): The email address the mail will be sent to.
+    """
     project_name = config.PROJECT_NAME
     subject = f"{project_name} - Email verification"
     with open(Path(config.EMAIL_TEMPLATES_DIR) / "new_account.html") as f:

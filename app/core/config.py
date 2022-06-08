@@ -1,8 +1,30 @@
-from app.core.settings import get_environment_var
+from dotenv import load_dotenv
+import os
+from pathlib import Path
+
+load_dotenv()
+
+
+def get_environment_var(name: str) -> str:
+    """Get environment variable.
+
+    Helper method to get value from .env file.
+
+    Args:
+        name (str): The name of the environment var.
+
+    Returns:
+        str: The value of the enironment var.
+    """
+    return os.getenv(name)
+
 
 # General
 PROJECT_NAME = get_environment_var('PROJECT_NAME') or "FastAPI Template"
 SERVER_HOST = get_environment_var('SERVER_HOST') or 'http://app.example.com'
+
+# CORS
+CORS_ALLOWED_ORIGINS = get_environment_var('CORS_ALLOWED_ORIGINS') or None
 
 # Redis
 REDIS_HOST = get_environment_var('REDIS_HOST') or None

@@ -5,14 +5,32 @@ from app.user.schema import UserCreate, UserUpdate
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from app.security.services import create_access_token, verify_password, create_password_hash
-from app.user.service import mail as user_mail_service
+from app.user.services import mail as user_mail_service
 
 
 def get_by_id(db: Session, user_id: str) -> Optional[UserModel]:
+    """Get user by id.
+
+    Args:
+        db (Session): The database session.
+        user_id (str): The user id.
+
+    Returns:
+        Optional[UserModel]: The user.
+    """
     return db.query(UserModel).filter(UserModel.id == user_id).first()
 
 
 def get_by_email(db: Session, email: str) -> Optional[UserModel]:
+    """Get user by email.
+
+    Args:
+        db (Session): The database session.
+        email (str): The user email.
+
+    Returns:
+        Optional[UserModel]: The user object.
+    """
     return db.query(UserModel).filter(UserModel.email == email).first()
 
 
@@ -39,27 +57,3 @@ def create_user(db: Session, new_user: UserCreate):
     db.refresh(db_obj)
     user_mail_service.send_new_account_email(db_obj.email)
     return db_obj
-
-
-def user_login(db: Session, email: str, password: str) -> Optional[str]:
-    """ Log user in.
-
-    Log user in by email and password.
-    """
-    user = get_by_email(db, email)
-    if not user:
-        raise HTTPException(status_code=400, detail="Wrong email or password")
-    is_password_valid = verify_password(password, user.password)
-    if not is_password_valid:
-        raise HTTPException(status_code=400, detail="Wrong email or password")
-    return create_access_token(str(user.id))
-
-
-def verify_email(db: Session, email: str) -> Optional[Literal[True]]:
-    user = get_by_email(email=email, db=db)
-    if not user:
-        return None
-    user.email_verified = True
-    db.commit()
-    db.refresh(user)
-    return True

@@ -2,6 +2,9 @@ from datetime import datetime, timedelta
 from typing import Any, Optional
 from app.core import config as settings
 from jose import jwt
+from sqlalchemy.orm import Session
+from typing import Literal
+from app.user.services import crud
 
 
 def generate_email_verification_token(email: str) -> str:
@@ -22,3 +25,13 @@ def verify_email_token(token: str) -> Optional[str]:
         return decoded["sub"]
     except jwt.JWTError:
         return None
+
+
+def verify_email(db: Session, email: str) -> Optional[Literal[True]]:
+    user = crud.get_by_email(email=email, db=db)
+    if not user:
+        return None
+    user.email_verified = True
+    db.commit()
+    db.refresh(user)
+    return True

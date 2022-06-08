@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import Any, Literal, Optional
 from app.core import config as settings
 from jose import jwt
-from ..services import get_by_email
+from app.user.services.crud import get_by_email
 from sqlalchemy.orm import Session
 from app.security.services import create_password_hash
 
@@ -32,6 +32,17 @@ def generate_password_reset_token(email: str) -> str:
 
 
 def verify_password_reset_token(token: str) -> Optional[str]:
+    """Verify token that is used to reset the password.
+
+    The JWT token as sent via email and must be provided 
+    when trying to reset the password of a user.
+
+    Args:
+        token (str): The jwt token.
+
+    Returns:
+        Optional[str]: The email address that was the sob of the token. None if token invalid.
+    """
     try:
         decoded = jwt.decode(
             token, settings.JWT_PASSWORD_RESET_TOKEN, algorithms="HS256")
@@ -41,6 +52,18 @@ def verify_password_reset_token(token: str) -> Optional[str]:
 
 
 def change_password(db: Session, email: str, new_pass: str) -> Optional[Literal[True]]:
+    """Change password of the user.
+
+    Reset the password of a user.
+
+    Args:
+        db (Session): The database session.
+        email (str): The email of the user.
+        new_pass (str): The new password
+
+    Returns:
+        Optional[Literal[True]]: The updated user.
+    """
     user = get_by_email(email=email, db=db)
     if not user:
         return None

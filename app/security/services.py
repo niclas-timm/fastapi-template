@@ -1,7 +1,7 @@
 from jose import jwt
 from passlib.context import CryptContext
 from typing import Any, Union
-from app.core.settings import get_environment_var
+from app.core.config import get_environment_var
 
 ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -22,8 +22,27 @@ def create_access_token(
 
 
 def create_password_hash(password: str) -> str:
+    """Hash a password.
+
+    Args:
+        password (str): The password that should be hashed.
+
+    Returns:
+        str: The hashed password.
+    """
     return pwd_context.hash(password)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify password against hash.
+
+    Get password in plain version and check it against the hashed password.
+
+    Args:
+        plain_password (str): The plain password.
+        hashed_password (str): The hashed password.
+
+    Returns:
+        bool: True if password is valid.
+    """
     return pwd_context.verify(plain_password, hashed_password)
