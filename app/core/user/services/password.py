@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
-from typing import Literal, Optional
+from typing import Any, Dict, Literal, Optional
 from app.core import config as settings
 from jose import jwt
-from app.core.user.services.crud import get_by_email
+#from app.core.user.services.crud import get_by_email
 from sqlalchemy.orm import Session
 from app.core.security.services import create_password_hash
+from app.core.user.model import UserModel
 
 
 def generate_password_reset_token(email: str) -> str:
@@ -51,7 +52,7 @@ def verify_password_reset_token(token: str) -> Optional[str]:
         return None
 
 
-def change_password(db: Session, email: str, new_pass: str) -> Optional[Literal[True]]:
+def change_password(db: Session, email: str, new_pass: str):
     """Change password of the user.
 
     Reset the password of a user.
@@ -64,11 +65,30 @@ def change_password(db: Session, email: str, new_pass: str) -> Optional[Literal[
     Returns:
         Optional[Literal[True]]: The updated user.
     """
-    user = get_by_email(email=email, db=db)
+    user = db.query(UserModel).filter(UserModel.email == email).first()
     if not user:
-        return None
+        return {"error": True, "msg": "User not found."}
+    is_password_valid = password_requirements_check(new_pass)
+    if is_password_valid["error"]:
+        return {"error": True, "msg": is_password_valid["msg"]}
     hashed_pass = create_password_hash(new_pass)
     user.password = hashed_pass
     db.commit()
     db.refresh(user)
     return True
+
+
+def password_requirements_check(password: str) -> Dict[str, Any]:
+    # Password must be min 8 characters
+    if len(password) < 8:
+        return {"error": True, "msg": "Password must have at least 8 characters."}
+    # Password may not contain "passwo"
+    if "passwor" in password:
+        return {"error": True, "msg": "Your password may not contain 'passwor'"}
+    if "1234" in password:
+        return {"error": True, "msg": "Password may not contain '1234'"}
+    if " " in password:
+        return {"error": True, "msg": "Password may not have spaces."}
+    if password.isalnum():
+        return {"error": True, "msg": "Password must have at least 1 special character."}
+    return {"error": False, "msg": ""}

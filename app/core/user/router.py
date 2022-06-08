@@ -27,8 +27,13 @@ def register_user(*, database: Session = Depends(db.get_db), new_user: user_sche
             status_code=400,
             detail='A user with the same email already exists.'
         )
-    user = crud.create_user(db=database, new_user=new_user)
-    return user
+    user_response = crud.create_user(db=database, new_user=new_user)
+    if isinstance(user_response, dict) and user_response["error"]:
+        raise HTTPException(
+            status_code=400,
+            detail=user_response['msg']
+        )
+    return user_response
 
 
 @router.post('/token', response_model=TokenModel)
@@ -79,4 +84,11 @@ def reset_password(data: user_schema.ResetPassword, db: Session = Depends(db.get
             status_code=400,
             detail='Invalid data'
         )
-    return password_service.change_password(db=db, email=data.email, new_pass=data.new_password)
+    updated_password = password_service.change_password(
+        db=db, email=data.email, new_pass=data.new_password)
+    if isinstance(updated_password, dict) and updated_password["error"]:
+        raise HTTPException(
+            status_code=400,
+            detail=updated_password["msg"]
+        )
+    return True
