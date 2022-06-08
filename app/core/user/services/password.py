@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Any, Dict, Literal, Optional
+from typing import Any, Dict, Optional
 from app.core import config as settings
 from jose import jwt
 #from app.core.user.services.crud import get_by_email
@@ -79,10 +79,23 @@ def change_password(db: Session, email: str, new_pass: str):
 
 
 def password_requirements_check(password: str) -> Dict[str, Any]:
-    # Password must be min 8 characters
+    """Password rules
+
+    Check if a password meets a list of requirements:
+    - Minimum of 8 characters
+    - May not contain "passwor" or "1234"
+    - May not have spaces
+    - Must have at least one special character
+
+    Args:
+        password (str): The password to be checked.
+
+    Returns:
+        Dict[str, Any]: error and msg. error will be True if the password does not meet requirements.
+        More detailed information will be in msg. Msg will be empty if password meets requirements.
+    """
     if len(password) < 8:
         return {"error": True, "msg": "Password must have at least 8 characters."}
-    # Password may not contain "passwo"
     if "passwor" in password:
         return {"error": True, "msg": "Your password may not contain 'passwor'"}
     if "1234" in password:
