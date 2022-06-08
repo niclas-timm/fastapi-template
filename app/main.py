@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from app.db.db import engine
-from app.db import models
-from app.api.routers import router
-from app.security import cors
+from app.core.db.db import engine
+from app import models
+from app.routers import router
+from app.core.security import cors
 
 # logging.config.fileConfig('logger.conf', disable_existing_loggers=False)
 # logger = logging.getLogger(__name__)

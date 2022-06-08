@@ -1,14 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.db import db
-from app.user import schema as user_schema
-from app.user.services import crud
-from app.user.services import auth
-from app.user.services import verification
-from app.user.model import UserModel
-from app.security.deps import get_current_user
+from app.core.db import db
+from app.core.user import schema as user_schema
+from app.core.user.services import crud, auth, verification
+from app.core.user.model import UserModel
+from app.core.security.deps import get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
-from app.security.models import TokenModel
+from app.core.security.models import TokenModel
 from .services import password as password_service
 from .services import mail as mail_service
 

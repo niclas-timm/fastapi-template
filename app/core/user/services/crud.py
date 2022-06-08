@@ -1,9 +1,9 @@
 from typing import Optional
-from app.user.model import UserModel
-from app.user.schema import UserCreate
+from app.core.user.model import UserModel
+from app.core.user.schema import UserCreate
 from sqlalchemy.orm import Session
-from app.security.services import create_password_hash
-from app.user.services import mail as user_mail_service
+from app.core.security.services import create_password_hash
+from app.core.user.services import mail as user_mail_service
 
 
 def get_by_id(db: Session, user_id: str) -> Optional[UserModel]:

@@ -1,9 +1,8 @@
 from app.core import config
-from app.mail import sender
+from app.core.mail import sender
 from pathlib import Path
 from .verification import generate_email_verification_token
 from app.core import config
-from app.mail import sender
 
 
 def send_new_account_email(email_to: str) -> None:

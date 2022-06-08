@@ -4,7 +4,7 @@ from app.core import config as settings
 from jose import jwt
 from sqlalchemy.orm import Session
 from typing import Literal
-from app.user.services import crud
+from app.core.user.services import crud
 
 
 def generate_email_verification_token(email: str) -> str:

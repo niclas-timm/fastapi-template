@@ -2,9 +2,9 @@ from datetime import datetime, timedelta
 from typing import Literal, Optional
 from app.core import config as settings
 from jose import jwt
-from app.user.services.crud import get_by_email
+from app.core.user.services.crud import get_by_email
 from sqlalchemy.orm import Session
-from app.security.services import create_password_hash
+from app.core.security.services import create_password_hash
 
 
 def generate_password_reset_token(email: str) -> str:

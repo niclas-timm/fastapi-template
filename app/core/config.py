@@ -40,7 +40,7 @@ JWT_PASSWORD_RESET_TOKEN = get_environment_var('JWT_PASSWORD_RESET_TOKEN')
 # Email
 EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
 EMAILS_ENABLED = get_environment_var('EMAILS_ENABLED') or False
-EMAIL_TEMPLATES_DIR = "./app/mail/templates/build"
+EMAIL_TEMPLATES_DIR = "./app/core/mail/templates/build"
 EMAILS_FROM_NAME = get_environment_var(
     'EMAILS_FROM_NAME') or "example@email.com"
 EMAILS_SMTP_HOST = get_environment_var('EMAILS_SMTP_HOST') or "localhost"

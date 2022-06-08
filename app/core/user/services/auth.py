@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from typing import Optional
-from app.user.services import crud
+from app.core.user.services import crud
 from fastapi import HTTPException
-from app.security.services import create_access_token, verify_password
+from app.core.security.services import create_access_token, verify_password
 
 
 def user_login(db: Session, email: str, password: str) -> Optional[str]:
