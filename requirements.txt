@@ -15,3 +15,4 @@ pylint
 aioredis[hiredis]
 flake8
 autoflake
+fastapi-cache2[redis]

@@ -13,3 +13,4 @@
 - After the first build, you can start your development environment by executing `./scripts/start-dev.sh`
 - (Optional) In `.vscode/launch.json` change the ports according to your needs.
 - (Optional) Change the file output in `logger.conf` according to your needs.
+- Execute `alembic upgrade head` to execute all outstanding database migrations.
