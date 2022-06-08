@@ -12,3 +12,4 @@ python-multipart
 emails
 jinja2
 pylint
+aioredis[hiredis]

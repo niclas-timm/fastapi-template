@@ -4,6 +4,12 @@ from app.core.settings import get_environment_var
 PROJECT_NAME = get_environment_var('PROJECT_NAME') or "FastAPI Template"
 SERVER_HOST = get_environment_var('SERVER_HOST') or 'http://app.example.com'
 
+# Redis
+REDIS_HOST = get_environment_var('REDIS_HOST') or None
+REDIS_PORT = get_environment_var('REDIS_PORT') or None
+REDIS_USERNAME = get_environment_var('REDIS_USERNAME') or None
+REDIS_PASSWORD = get_environment_var('REDIS_PASSWORD') or None
+
 # JWT
 JWT_TOKEN = get_environment_var('JWT_TOKEN')
 JWT_EMAIL_VERIFICATION_TOKEN = get_environment_var(
