@@ -23,7 +23,7 @@ app.include_router(router)
 @cache(expire=1000)
 async def front():
     # logger.info("logging from the root logger")
-    return "Lieber Arthur, du bist ein kleiner Pisser :)!"
+    return {"Hello": "World"}
 
 
 @app.on_event('startup')
