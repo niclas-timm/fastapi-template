@@ -7,6 +7,7 @@
 - Response caching
 - Alembic for database migrations
 - Logger configuration
+- CORS
 - Dockerized
 - Production ready: Gitlab CI/CD different docker-compose settings for dev & prod out of the box.
 
@@ -24,7 +25,7 @@ python3 -m venv
 pip install -r requirements.txt
 ```
 
-- In `docker-compose.dev.yaml` and `docker-compose.prod.yml` rename images, networks and volumes according to your needs.
+- In `docker-compose.dev.yml` and `docker-compose.prod.yml` rename images, networks and volumes according to your needs.
 - Execute:
 
 ```
