@@ -35,7 +35,7 @@ def send_email(
     if settings["user"]:
         smtp_options["user"] = settings['user']
     if settings['password']:
-        smtp_options["password"] = settings.SMTP_PASSWORD
+        smtp_options["password"] = settings["password"]
     return message.send(to=email_to, render=environment, smtp=smtp_options)
 
 

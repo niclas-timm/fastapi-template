@@ -16,3 +16,5 @@ aioredis[hiredis]
 flake8
 autoflake
 fastapi-cache2[redis]
+slack_sdk
+aiohttp

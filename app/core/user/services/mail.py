@@ -1,5 +1,5 @@
 from app.core import config
-from app.core.mail import sender
+from app.core.notifications.mail import sender
 from pathlib import Path
 from .verification import generate_email_verification_token
 from app.core import config

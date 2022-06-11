@@ -1,6 +1,12 @@
+# Environment.
 /venv
 .env
 todo.txt
-/__pycache__
 
+# Debugging.
 debug.log
+
+# Bytecode.
+# __pycache__/
+# *.py[cod]
+# *$py.class

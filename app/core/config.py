@@ -1,10 +1,12 @@
 from dotenv import load_dotenv
 import os
 
+from typing import Optional
+
 load_dotenv()
 
 
-def get_environment_var(name: str) -> str:
+def get_environment_var(name: str) -> Optional[str]:
     """Get environment variable.
 
     Helper method to get value from .env file.
@@ -40,7 +42,7 @@ JWT_PASSWORD_RESET_TOKEN = get_environment_var('JWT_PASSWORD_RESET_TOKEN')
 # Email
 EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
 EMAILS_ENABLED = get_environment_var('EMAILS_ENABLED') or False
-EMAIL_TEMPLATES_DIR = "./app/core/mail/templates/build"
+EMAIL_TEMPLATES_DIR = "./app/core/notifications/mail/templates/build"
 EMAILS_FROM_NAME = get_environment_var(
     'EMAILS_FROM_NAME') or "example@email.com"
 EMAILS_SMTP_HOST = get_environment_var('EMAILS_SMTP_HOST') or "localhost"
@@ -50,3 +52,6 @@ EMAILS_PASSWORD = get_environment_var('EMAILS_PASSWORD') or ""
 
 # Password
 PASSWORD_RESET_TOKEN_EXPIRE_HOURS: int = 1
+
+# SLACK
+SLACK_WEBHOOK_URL = get_environment_var('SLACK_WEBHOOK_URL') or None
