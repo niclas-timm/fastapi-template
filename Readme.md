@@ -10,6 +10,7 @@
 - Alembic for database migrations
 - Logger configuration
 - CORS
+- A Typer based cli
 - Dockerized
 - Production ready: Gitlab CI/CD different docker-compose settings for dev & prod out of the box.
 
