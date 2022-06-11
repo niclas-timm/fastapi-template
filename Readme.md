@@ -1,10 +1,12 @@
 # Features
 
+- Modular approach so modules can be shared accross different apps
 - Postgres DB connection
 - JWT authentication / authorization
+- RBAC (Role based access control)
 - Emails with Jinja2 templates
-- Caching with redis
-- Response caching
+- Slack notifications via Webhooks
+- (Response) caching with Redis
 - Alembic for database migrations
 - Logger configuration
 - CORS
