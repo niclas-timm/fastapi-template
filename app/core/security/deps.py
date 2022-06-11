@@ -6,9 +6,37 @@ from app.core.security.models import TokenData
 from sqlalchemy.orm import Session
 from app.core.db.db import get_db
 from app.core.user.services.crud import get_by_id
+from app.core.roles.roles import Roles
+from app.core.roles.guard import has_role
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 ALGORITHM = "HS256"
+CREDENTIALS_EXCEPTION = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="Could not validate credentials",
+    headers={"WWW-Authenticate": "Bearer"},
+)
+ROLE_EXEPTION = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="Invalid permissions",
+    headers={"WWW-Authenticate": "Bearer"},
+)
+
+
+def _get_current_user(db: Session, token: str, exception=CREDENTIALS_EXCEPTION):
+    try:
+        secret = get_environment_var('JWT_TOKEN')
+        payload = jwt.decode(token, secret, algorithms=[ALGORITHM])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            raise exception
+        token_data = TokenData(id=user_id)
+    except JWTError:
+        raise exception
+    user = get_by_id(db, user_id=user_id)
+    if user is None:
+        raise exception
+    return user
 
 
 async def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
@@ -23,26 +51,30 @@ async def get_current_user(db: Session = Depends(get_db), token: str = Depends(o
         token (str, optional): The token from the auth header. Defaults to Depends(oauth2_scheme).
 
     Raises:
-        credentials_exception: 401 exception.
+        CREDENTIALS_EXCEPTION: 401 exception.
 
     Returns:
-        _type_: _description_
+        UserModel: The current user.
     """
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        secret = get_environment_var('JWT_TOKEN')
-        payload = jwt.decode(token, secret, algorithms=[ALGORITHM])
-        user_id: str = payload.get("sub")
-        if user_id is None:
-            raise credentials_exception
-        token_data = TokenData(id=user_id)
-    except JWTError:
-        raise credentials_exception
-    user = get_by_id(db, user_id=user_id)
-    if user is None:
-        raise credentials_exception
+    return _get_current_user(db=db, token=token)
+
+
+async def admin_guard(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    """Grant access if the current user is an admin.
+
+    Args:
+        db (Session, optional): The database session. Defaults to Depends(get_db).
+        token (str, optional): The jwt bearer token. Defaults to Depends(oauth2_scheme).
+
+    Raises:
+        CREDENTIALS_EXCEPTION: User is not authenticated.
+        ROLE_EXEPTION: If the user is not an admin
+
+    Returns:
+        User: The current user.
+    """
+    user = _get_current_user(db, token)
+    has_access = has_role(user=user, required_roles=[Roles.ADMIN.value])
+    if not has_access:
+        raise ROLE_EXEPTION
     return user

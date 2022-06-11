@@ -1,4 +1,5 @@
-from typing import Optional
+from fastapi import HTTPException
+from typing import List, Optional
 from app.core.user.model import UserModel
 from app.core.user.schema import UserCreate
 from sqlalchemy.orm import Session
@@ -52,10 +53,18 @@ def create_user(db: Session, new_user: UserCreate):
         password=create_password_hash(
             new_user.password),
         name=new_user.name,
-        is_admin=new_user.is_admin,
     )
     db.add(db_obj)
     db.commit()
     db.refresh(db_obj)
     user_mail_service.send_new_account_email(db_obj.email)
     return db_obj
+
+
+def add_role(db: Session, user_id: str, new_roles: List[str]):
+    user = get_by_id(db=db, user_id=user_id)
+    if not user:
+        raise HTTPException(
+            status_code=400,
+            detail="User not found"
+        )

@@ -1,15 +1,11 @@
 from typing import Optional
-
 from pydantic import BaseModel, EmailStr
 
 
 # Shared properties
 class UserBase(BaseModel):
-    email: EmailStr = None
-    is_active: bool = True
-    is_admin: bool = False
-    name: str = None
-    email_verified: bool = False
+    email: EmailStr
+    name: str
 
 
 class UserCreate(UserBase):
@@ -22,29 +18,22 @@ class UserUpdate(UserBase):
 
 
 class UserInDBBase(UserBase):
-    id: Optional[int] = None
+    id: int
+    email_verified: bool = False
+    is_active: bool = True
+    roles: str
 
     class Config:
         orm_mode = True
 
 
-# Additional properties to return via API
 class User(UserInDBBase):
-    id: int = None
+    pass
 
 
 # Additional properties stored in DB
 class UserInDB(UserInDBBase):
     hashed_password: str
-
-
-class UserResponse(UserBase):
-    id: int
-    email: EmailStr
-    name: str
-
-    class Config:
-        orm_mode = True
 
 
 class UserCredentials(BaseModel):
@@ -56,3 +45,7 @@ class ResetPassword(BaseModel):
     email: str
     new_password: str
     token: str
+
+
+class UpdateRoles(BaseModel):
+    roles: str

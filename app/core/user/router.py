@@ -4,18 +4,21 @@ from app.core.db import db
 from app.core.user import schema as user_schema
 from app.core.user.services import crud, auth, verification
 from app.core.user.model import UserModel
-from app.core.security.deps import get_current_user
+from app.core.security.deps import get_current_user, admin_guard
 from fastapi.security import OAuth2PasswordRequestForm
 from app.core.security.models import TokenModel
+from app.core.user.services.roles import add_roles
 from .services import password as password_service
 from .services import mail as mail_service
+from app.core.roles.schemas import AddRoles
+
 
 router = APIRouter(
     tags=['users']
 )
 
 
-@router.post('/register', response_model=user_schema.UserResponse)
+@router.post('/register', response_model=user_schema.User)
 def register_user(*, database: Session = Depends(db.get_db), new_user: user_schema.UserCreate):
     """ Register new user
 
@@ -43,7 +46,7 @@ async def login(*, database: Session = Depends(db.get_db), form_data: OAuth2Pass
     return {"access_token": token, "token_type": "bearer"}
 
 
-@router.get('/me', response_model=user_schema.UserResponse)
+@router.get('/me', response_model=user_schema.User)
 def me(current_user: UserModel = Depends(get_current_user)):
     return current_user
 
@@ -92,3 +95,8 @@ def reset_password(data: user_schema.ResetPassword, db: Session = Depends(db.get
             detail=updated_password["msg"]
         )
     return True
+
+
+@router.patch('/roles/add/{user_id}', response_model=user_schema.User)
+def add_roles_to_user(user_id: str, data: AddRoles, db: Session = Depends(db.get_db), user=Depends(admin_guard)):
+    return add_roles(user_id=user_id, new_roles=data.roles, db=db)
