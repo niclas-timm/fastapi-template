@@ -24,6 +24,13 @@ def get_environment_var(name: str) -> Optional[str]:
 PROJECT_NAME = get_environment_var('PROJECT_NAME') or "FastAPI Template"
 SERVER_HOST = get_environment_var('SERVER_HOST') or 'http://app.example.com'
 
+# Database
+DB_USERNAME = get_environment_var('DB_USERNAME') or None
+DB_PASSWORD = get_environment_var('DB_PASSWORD') or None
+DB_HOST = get_environment_var('DB_HOST') or None
+DB_PORT = get_environment_var('DB_PORT') or None
+DB_NAME = get_environment_var('DB_NAME') or None
+
 # User.
 SUPER_USER_NAME = get_environment_var('SUPER_USER_NAME') or None
 SUPER_USER_EMAIL = get_environment_var('SUPER_USER_EMAIL') or None

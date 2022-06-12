@@ -4,9 +4,14 @@
 # implementing new commands.
 # -------------------------------------------------------------------------------
 from app.core.user import commands as user_commands
+from app.core.db import commands as db_commands
 cli_apps = [
     {
         "app": user_commands,  # The file the commands live in.
         "name": "user"  # The name you want your commands to be prefixed with. Here: python cli.py user <YOUR_COMMAND>
     },
+    {
+        "app": db_commands,
+        "name": "db"
+    }
 ]

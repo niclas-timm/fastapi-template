@@ -1,4 +1,3 @@
-import imp
 from pydantic import EmailStr
 import typer
 from app.core.db import db
