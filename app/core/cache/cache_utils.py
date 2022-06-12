@@ -1,8 +1,7 @@
-""" Utility methods to interact with the redis cache.
-
-Methods like getting and settings values in the redis cache.
-
-"""
+# -------------------------------------------------------------------------------
+# Utility methods to interact with the redis cache. For example, methods for
+# setting, getting and removing key-value pairs from the redis cache.
+# -------------------------------------------------------------------------------
 
 from aioredis import Redis
 

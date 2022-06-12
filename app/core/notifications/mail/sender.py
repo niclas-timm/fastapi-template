@@ -1,3 +1,6 @@
+# -------------------------------------------------------------------------------
+# Manage SMTP configuration and helper methods for sending email.
+# -------------------------------------------------------------------------------
 import emails
 from emails.template import JinjaTemplate
 from app.core.config import get_environment_var

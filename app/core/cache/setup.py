@@ -1,3 +1,6 @@
+# -------------------------------------------------------------------------------
+# Methods for managing the connection to the redis cache.
+# -------------------------------------------------------------------------------
 import aioredis
 
 from app.core import config

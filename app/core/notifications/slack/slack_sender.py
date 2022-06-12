@@ -1,3 +1,6 @@
+# -------------------------------------------------------------------------------
+# Send a slack message with a custom text.
+# -------------------------------------------------------------------------------
 from app.core.notifications.slack import slack_connect
 
 

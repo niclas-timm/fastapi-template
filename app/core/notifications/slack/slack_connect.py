@@ -1,3 +1,6 @@
+# -------------------------------------------------------------------------------
+# Get a slack webhook client.
+# -------------------------------------------------------------------------------
 from slack.webhook.client import WebhookClient
 from app.core import config
 from slack_sdk.webhook import WebhookClient
