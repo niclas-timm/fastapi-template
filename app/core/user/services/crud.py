@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from app.core.security.services import create_password_hash
 from app.core.user.services import mail as user_mail_service
 from app.core.user.services import password
+from sqlalchemy import exc
 
 
 def get_by_id(db: Session, user_id: str) -> Optional[UserModel]:
@@ -55,10 +56,41 @@ def create_user(db: Session, new_user: UserCreate):
         name=new_user.name,
     )
     db.add(db_obj)
-    db.commit()
-    db.refresh(db_obj)
+    try:
+        db.commit()
+        db.refresh(db_obj)
+    except exc.SQLAlchemyError:
+        raise HTTPException(
+            status_code=401,
+            detail='Email address already taken'
+        )
+
     user_mail_service.send_new_account_email(db_obj.email)
     return db_obj
+
+
+def delete_user(db: Session, user_id: str):
+    """Delete user form database.
+
+    Args:
+        db (Session): The database session.
+        user_id (str): The id of the user.
+
+    Raises:
+        HTTPException: User not found.
+
+    Returns:
+        bool: True if user was deleted successfully.
+    """
+    user = get_by_id(db, user_id)
+    if not user:
+        raise HTTPException(
+            status_code=400,
+            detail="User not found"
+        )
+    db.delete(user)
+    db.commit()
+    return True
 
 
 def add_role(db: Session, user_id: str, new_roles: List[str]):
