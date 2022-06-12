@@ -5,7 +5,7 @@
 # -------------------------------------------------------------------------------
 import pytest
 from fastapi.testclient import TestClient
-from typing import Dict, Generator
+from typing import Generator
 
 from app.main import app
 from app.core.db.db import SessionLocal
