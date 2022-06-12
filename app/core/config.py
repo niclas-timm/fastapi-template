@@ -24,6 +24,11 @@ def get_environment_var(name: str) -> Optional[str]:
 PROJECT_NAME = get_environment_var('PROJECT_NAME') or "FastAPI Template"
 SERVER_HOST = get_environment_var('SERVER_HOST') or 'http://app.example.com'
 
+# User.
+SUPER_USER_NAME = get_environment_var('SUPER_USER_NAME') or None
+SUPER_USER_EMAIL = get_environment_var('SUPER_USER_EMAIL') or None
+SUPER_USER_PASSWORD = get_environment_var('SUPER_USER_PASSWORD') or None
+
 # CORS
 CORS_ALLOWED_ORIGINS = get_environment_var('CORS_ALLOWED_ORIGINS') or None
 
