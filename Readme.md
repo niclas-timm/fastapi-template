@@ -11,6 +11,7 @@
 - Logger configuration
 - CORS
 - A Typer based cli
+- Ready to use scripts for creating and importing database backups.
 - Dockerized
 - Production ready: Gitlab CI/CD different docker-compose settings for dev & prod out of the box.
 
