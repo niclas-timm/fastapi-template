@@ -19,3 +19,5 @@ fastapi-cache2[redis]
 slack_sdk
 aiohttp
 typer
+pytest
+pytest-asyncio

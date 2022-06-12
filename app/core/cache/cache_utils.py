@@ -4,7 +4,7 @@ Methods like getting and settings values in the redis cache.
 
 """
 
-from redis import Redis
+from aioredis import Redis
 
 # Default expiration 4 hours.
 DEFAULT_EXPIRATION_IN_HOURS: int = 60 * 60 * 4
@@ -41,3 +41,13 @@ async def set_cache_key(r: Redis, key: str, value: str, timeout: int = DEFAULT_E
     """
     await r.set(key, value)
     await r.expire(key, timeout)
+
+
+async def remove_cache_key(r: Redis, key: str) -> None:
+    """Remove key from redis cache.
+
+    Args:
+        r (Redis): The redis instance.
+        key (str): The key that will be removed from the cache.
+    """
+    await r.delete(key)
