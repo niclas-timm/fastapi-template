@@ -1,5 +1,5 @@
 import typer
-from .config import cli_apps
+from app.commands import cli_apps
 
 app = typer.Typer()
 

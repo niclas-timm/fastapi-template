@@ -1,3 +1,5 @@
+#!/bin/python
+
 # -------------------------------------------------------------------------------
 # Bootstrap CLI application.
 # Config and methods are located in the app.core.cli
