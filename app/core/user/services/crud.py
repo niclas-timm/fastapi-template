@@ -1,7 +1,6 @@
 from fastapi import HTTPException
-from typing import List, Optional
+from typing import Any, Optional
 
-from pendulum import instance
 from app.core.user.model import UserModel
 from app.core.user.schema import UserCreate
 from sqlalchemy.orm import Session
@@ -11,6 +10,21 @@ from app.core.user.services import password
 from sqlalchemy import exc
 from app.core import config
 from app.core.user.services import utils as user_utils
+
+
+def get_by_attribute(db: Session, attribute: str, value: Any) -> Optional[UserModel]:
+    """Get user by an attribute.
+
+    Args:
+        db (Session): The database session.
+        attribute (str): The attribute on the user object.
+        value (Any): The value the attribute must have in order to match the query condition.
+
+
+    Returns:
+        Optional[UserModel]: The user object.
+    """
+    return db.query(UserModel).filter(getattr(UserModel, attribute) == value).first()
 
 
 def get_by_id(db: Session, user_id: str) -> Optional[UserModel]:
@@ -23,7 +37,7 @@ def get_by_id(db: Session, user_id: str) -> Optional[UserModel]:
     Returns:
         Optional[UserModel]: The user.
     """
-    return db.query(UserModel).filter(UserModel.id == user_id).first()
+    return get_by_attribute(db, 'id', user_id)
 
 
 def get_by_email(db: Session, email: str) -> Optional[UserModel]:
@@ -36,7 +50,7 @@ def get_by_email(db: Session, email: str) -> Optional[UserModel]:
     Returns:
         Optional[UserModel]: The user object.
     """
-    return db.query(UserModel).filter(UserModel.email == email).first()
+    return get_by_attribute(db, 'email', email)
 
 
 def create_user(db: Session, new_user: UserCreate):
