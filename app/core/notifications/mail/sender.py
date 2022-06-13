@@ -3,7 +3,6 @@
 # -------------------------------------------------------------------------------
 import emails
 from emails.template import JinjaTemplate
-from app.core.config import get_environment_var
 from app.core import config
 from typing import Any, Dict
 from pathlib import Path
@@ -26,19 +25,19 @@ def send_email(
     Returns:
         Any: _description_
     """
-    settings = get_mail_settings()
-    assert settings["email_enabled"], "no provided configuration for email variables"
+
+    assert config.EMAILS_ENABLED, "no provided configuration for email variables"
     message = emails.Message(
         subject=JinjaTemplate(subject_template),
         html=JinjaTemplate(html_template),
-        mail_from=(settings['from_name'], settings["from_name"]),
+        mail_from=(config.EMAILS_FROM_NAME, config.EMAILS_FROM_NAME),
 
     )
-    smtp_options = {"host": settings['host'], "port": settings['port']}
-    if settings["user"]:
-        smtp_options["user"] = settings['user']
-    if settings['password']:
-        smtp_options["password"] = settings["password"]
+    smtp_options = {"host": config.EMAILS_SMTP_HOST, "port": config.EMAILS_PORT}
+    if config.EMAILS_USER:
+        smtp_options["user"] = config.EMAILS_USER
+    if config.EMAILS_PASSWORD:
+        smtp_options["password"] = config.EMAILS_PASSWORD
     return message.send(to=email_to, render=environment, smtp=smtp_options)
 
 
@@ -61,19 +60,3 @@ def send_test_email(email_to: str) -> None:
         html_template=template_str,
         environment={"project_name": project_name, "email": email_to},
     )
-
-
-def get_mail_settings() -> dict:
-    """Get Email settings from environment variables.
-
-    Returns:
-        dict: The settings.
-    """
-    return {
-        "email_enabled": get_environment_var('EMAILS_ENABLED'),
-        "from_name": get_environment_var('EMAILS_FROM_NAME'),
-        "host": get_environment_var('EMAILS_SMTP_HOST'),
-        "port": get_environment_var('EMAILS_PORT'),
-        "user": get_environment_var('EMAILS_USER'),
-        "password": get_environment_var('EMAILS_PASSWORD')
-    }
