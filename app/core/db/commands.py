@@ -11,7 +11,7 @@ app = typer.Typer()
 
 
 @app.command()
-def create_db_dump(container_name: str = typer.Option(default=None, help="The name of the postgres container.")):
+def create_dump(container_name: str = typer.Option(default=None, help="The name of the postgres container.")):
     """Create a dump of the postgres database.
 
     Create a SQL dump of the local database and store it in the /dumps directory
@@ -35,10 +35,10 @@ def create_db_dump(container_name: str = typer.Option(default=None, help="The na
 
 
 @app.command()
-def import_db_dump(container_name: str = typer.Option(default=None, help="The name of the postgres container."),
-                   file_name: str = typer.Option(
-                       default=None, help="The name of the file that lives in the /dumps directory.")
-                   ):
+def import_dump(container_name: str = typer.Option(default=None, help="The name of the postgres container."),
+                file_name: str = typer.Option(
+    default=None, help="The name of the file that lives in the /dumps directory.")
+):
     user = config.DB_USERNAME
     database = config.DB_NAME
     if not user or not database:

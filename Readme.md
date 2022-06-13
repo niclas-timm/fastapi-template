@@ -129,7 +129,7 @@ For example, you can execute `python cli user seed-user` to create a new super u
 
 ## Database backups
 
-The cli described above comes with predefined commands to create and import database backups. For example `python cli db create-db-dump --container-name <MY_PG_CONTAINER>` will create a sql dump of your local database for you. It's that easy!
+The cli described above comes with predefined commands to create and import database backups. For example `python cli db create-dump --container-name <MY_PG_CONTAINER>` will create a sql dump of your local database for you. It's that easy!
 
 ## Unit Testing with Pytest
 
