@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional
 from app.core import config as settings
-from jose import jwt
+from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 from typing import Literal
 from app.core.user.services import crud
@@ -43,7 +43,7 @@ def verify_email_token(token: str) -> Optional[str]:
         decoded = jwt.decode(
             token, settings.JWT_EMAIL_VERIFICATION_TOKEN, algorithms="HS256")
         return decoded["sub"]
-    except jwt.JWTError:
+    except JWTError:
         return None
 
 

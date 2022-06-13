@@ -7,6 +7,7 @@ from app.core.security.services import create_password_hash
 from app.core.user.services import mail as user_mail_service
 from app.core.user.services import password
 from sqlalchemy import exc
+from app.core import config
 
 
 def get_by_id(db: Session, user_id: str) -> Optional[UserModel]:
@@ -48,7 +49,10 @@ def create_user(db: Session, new_user: UserCreate):
     """
     is_password_valid = password.password_requirements_check(new_user.password)
     if is_password_valid["error"]:
-        return {"error": True, "msg": is_password_valid["msg"]}
+        raise HTTPException(
+            status_code=400,
+            detail=is_password_valid["msg"]
+        )
     db_obj = UserModel(
         email=new_user.email,
         password=create_password_hash(
@@ -64,8 +68,8 @@ def create_user(db: Session, new_user: UserCreate):
             status_code=401,
             detail='Email address already taken'
         )
-
-    user_mail_service.send_new_account_email(db_obj.email)
+    if config.EMAILS_ENABLED:
+        user_mail_service.send_new_account_email(db_obj.email)
     return db_obj
 
 
@@ -91,12 +95,3 @@ def delete_user(db: Session, user_id: str):
     db.delete(user)
     db.commit()
     return True
-
-
-def add_role(db: Session, user_id: str, new_roles: List[str]):
-    user = get_by_id(db=db, user_id=user_id)
-    if not user:
-        raise HTTPException(
-            status_code=400,
-            detail="User not found"
-        )

@@ -1,14 +1,13 @@
 from datetime import datetime, timedelta
 from typing import Any, Dict, Optional
 from app.core import config as settings
-from jose import jwt
-#from app.core.user.services.crud import get_by_email
+from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 from app.core.security.services import create_password_hash
 from app.core.user.model import UserModel
 
 
-def generate_password_reset_token(email: str) -> str:
+def generate_password_reset_token(email: str) -> Optional[str]:
     """Generate jwt token for resetting password.
 
     Generate a JWT token with short expiration time. This token must
@@ -26,9 +25,12 @@ def generate_password_reset_token(email: str) -> str:
     now = datetime.utcnow()
     expires = now + delta
     exp = expires.timestamp()
-    encoded_jwt = jwt.encode(
-        {"exp": exp, "nbf": now, "sub": email}, settings.JWT_PASSWORD_RESET_TOKEN, algorithm="HS256",
-    )
+    try:
+        encoded_jwt = jwt.encode(
+            {"exp": exp, "nbf": now, "sub": email}, settings.JWT_PASSWORD_RESET_TOKEN, algorithm="HS256",
+        )
+    except JWTError:
+        return
     return encoded_jwt
 
 
@@ -48,7 +50,7 @@ def verify_password_reset_token(token: str) -> Optional[str]:
         decoded = jwt.decode(
             token, settings.JWT_PASSWORD_RESET_TOKEN, algorithms="HS256")
         return decoded["sub"]
-    except jwt.JWTError:
+    except JWTError:
         return None
 
 

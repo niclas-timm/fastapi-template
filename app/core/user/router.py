@@ -31,10 +31,10 @@ def register_user(*, database: Session = Depends(db.get_db), new_user: user_sche
             detail='A user with the same email already exists.'
         )
     user_response = crud.create_user(db=database, new_user=new_user)
-    if isinstance(user_response, dict) and user_response["error"]:
+    if isinstance(user_response, dict):
         raise HTTPException(
-            status_code=400,
-            detail=user_response['msg']
+            status_code=500,
+            detail="Sorry, somethin went wrong. Please try again later."
         )
     return user_response
 
@@ -69,6 +69,11 @@ def request_password_reset(email: str, db: Session = Depends(db.get_db)):
     if not user:
         return True
     token = password_service.generate_password_reset_token(email)
+    if not token:
+        raise HTTPException(
+            status_code=500,
+            detail="Sorry, something went wrong. Please try again later."
+        )
     mail_service.send_reset_password_email(
         email_to=email, token=token)
     return True

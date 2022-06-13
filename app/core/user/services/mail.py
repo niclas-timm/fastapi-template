@@ -15,7 +15,7 @@ def send_new_account_email(email_to: str) -> None:
         email_to (str): The email address the mail will be sent to.
     """
     project_name = config.PROJECT_NAME
-    subject = f"{project_name} - Email verification"
+    subject = f"{project_name} - Verify your account"
     with open(Path(config.EMAIL_TEMPLATES_DIR) / "new_account.html") as f:
         template_str = f.read()
     token = generate_email_verification_token(email=email_to)
