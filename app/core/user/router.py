@@ -105,3 +105,13 @@ def reset_password(data: user_schema.ResetPassword, db: Session = Depends(db.get
 @router.patch('/roles/add/{user_id}', response_model=user_schema.User)
 def add_roles_to_user(user_id: str, data: AddRoles, db: Session = Depends(db.get_db), user=Depends(admin_guard)):
     return add_roles(user_id=user_id, new_roles=data.roles, db=db)
+
+
+@router.delete('/user/delete/{user_id}')
+def delete_user(user_id: str, current_user: UserModel = Depends(get_current_user), db: Session = Depends(db.get_db)):
+    if user_id != current_user.id and not current_user.is_superuser:
+        raise HTTPException(
+            status_code=401,
+            detail="You are not authorized to delete this user."
+        )
+    return crud.delete_user(db, user_id)

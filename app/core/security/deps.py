@@ -78,3 +78,23 @@ async def admin_guard(db: Session = Depends(get_db), token: str = Depends(oauth2
     if not has_access:
         raise ROLE_EXEPTION
     return user
+
+
+async def superuser_guard(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    """Grant access if the current user is a superuser.
+
+    Args:
+        db (Session, optional): The database session. Defaults to Depends(get_db).
+        token (str, optional): The jwt bearer token. Defaults to Depends(oauth2_scheme).
+
+    Raises:
+        CREDENTIALS_EXCEPTION: User is not authenticated.
+        ROLE_EXEPTION: If the user is not a superuser.
+
+    Returns:
+        User: The current user.
+    """
+    user = get_user_from_jwt(db, token)
+    if not user.is_superuser:
+        raise ROLE_EXEPTION
+    return user
