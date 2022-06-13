@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from app.core.config import get_environment_var
+from app.core import config
 from app.core.security.models import TokenData
 from sqlalchemy.orm import Session
 from app.core.db.db import get_db
@@ -23,9 +23,9 @@ ROLE_EXEPTION = HTTPException(
 )
 
 
-def _get_current_user(db: Session, token: str, exception=CREDENTIALS_EXCEPTION):
+def get_user_from_jwt(db: Session, token: str, exception=CREDENTIALS_EXCEPTION):
     try:
-        secret = get_environment_var('JWT_TOKEN')
+        secret = config.JWT_TOKEN
         payload = jwt.decode(token, secret, algorithms=[ALGORITHM])
         user_id: str = payload.get("sub")
         if user_id is None:
@@ -56,7 +56,7 @@ async def get_current_user(db: Session = Depends(get_db), token: str = Depends(o
     Returns:
         UserModel: The current user.
     """
-    return _get_current_user(db=db, token=token)
+    return get_user_from_jwt(db=db, token=token)
 
 
 async def admin_guard(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
@@ -73,7 +73,7 @@ async def admin_guard(db: Session = Depends(get_db), token: str = Depends(oauth2
     Returns:
         User: The current user.
     """
-    user = _get_current_user(db, token)
+    user = get_user_from_jwt(db, token)
     has_access = has_role(user=user, required_roles=[Roles.ADMIN.value])
     if not has_access:
         raise ROLE_EXEPTION
