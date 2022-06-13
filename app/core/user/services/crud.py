@@ -1,5 +1,7 @@
 from fastapi import HTTPException
 from typing import List, Optional
+
+from pendulum import instance
 from app.core.user.model import UserModel
 from app.core.user.schema import UserCreate
 from sqlalchemy.orm import Session
@@ -8,6 +10,7 @@ from app.core.user.services import mail as user_mail_service
 from app.core.user.services import password
 from sqlalchemy import exc
 from app.core import config
+from app.core.user.services import utils as user_utils
 
 
 def get_by_id(db: Session, user_id: str) -> Optional[UserModel]:
@@ -47,18 +50,12 @@ def create_user(db: Session, new_user: UserCreate):
 
     return (UserModel): The newly stored user.
     """
-    is_password_valid = password.password_requirements_check(new_user.password)
-    if is_password_valid["error"]:
+    db_obj = user_utils.create_user_object(new_user=new_user)
+    if not isinstance(db_obj, UserModel):
         raise HTTPException(
             status_code=400,
-            detail=is_password_valid["msg"]
+            detail=db_obj
         )
-    db_obj = UserModel(
-        email=new_user.email,
-        password=create_password_hash(
-            new_user.password),
-        name=new_user.name,
-    )
     db.add(db_obj)
     try:
         db.commit()
@@ -95,3 +92,25 @@ def delete_user(db: Session, user_id: str):
     db.delete(user)
     db.commit()
     return True
+
+
+def create_superuser(db: Session, new_user: UserCreate):
+    db_obj = user_utils.create_user_object(new_user=new_user)
+    if not isinstance(db_obj, UserModel):
+        raise HTTPException(
+            status_code=400,
+            detail=db_obj
+        )
+    db_obj.__setattr__('is_superuser', True)
+    db.add(db_obj)
+    try:
+        db.commit()
+        db.refresh(db_obj)
+    except exc.SQLAlchemyError:
+        raise HTTPException(
+            status_code=401,
+            detail='Email address already taken'
+        )
+    if config.EMAILS_ENABLED:
+        user_mail_service.send_new_account_email(db_obj.email)
+    return db_obj

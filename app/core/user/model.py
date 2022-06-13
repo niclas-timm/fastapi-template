@@ -11,7 +11,7 @@ class UserModel(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String)
     is_active = Column(Boolean, default=True)
-    is_admin = Column(Boolean, default=False)
+    is_superuser = Column(Boolean, default=False)
     email_verified = Column(Boolean, default=False)
     roles = Column(String, default=default_role)
 

@@ -22,6 +22,7 @@ class UserInDBBase(UserBase):
     email_verified: bool = False
     is_active: bool = True
     roles: str
+    is_superuser: bool
 
     class Config:
         orm_mode = True

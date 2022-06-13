@@ -22,7 +22,7 @@ def by_mail(email: str = typer.Option(default=None, help="The email address of t
 
 
 @app.command()
-def seed_user():
+def seed_super_user():
     """Seed the super user into the database.
 
     Ideally, this will method will only be called right after the database
@@ -42,7 +42,7 @@ def seed_user():
         typer.echo("Email, name or password not defined")
         raise typer.Abort()
     new_user_data = schema.UserCreate(email=email, name=name, password=password)
-    user = crud.create_user(session, new_user_data)
+    user = crud.create_superuser(session, new_user_data)
     if not user:
         typer.echo("Could not create user")
         raise typer.Abort()
