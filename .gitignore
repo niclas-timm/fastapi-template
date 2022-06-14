@@ -2,7 +2,7 @@
 /venv
 .env
 todo.txt
-config.yml
+ssh.config.yml
 
 # Debugging.
 debug.log

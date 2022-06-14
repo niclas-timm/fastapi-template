@@ -23,7 +23,7 @@ def get_environment_var(name: str) -> Optional[str]:
 # General.
 PROJECT_NAME = get_environment_var('PROJECT_NAME') or "FastAPI Template"
 SERVER_HOST = get_environment_var('SERVER_HOST') or 'http://app.example.com'
-CONFIG_YML_PATH = 'app/config.yml'
+CONFIG_YML_PATH = 'app/config/config.yml'
 
 # Database.
 DB_USERNAME = get_environment_var('DB_USERNAME') or None

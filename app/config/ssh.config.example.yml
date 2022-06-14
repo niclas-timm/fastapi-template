@@ -1,0 +1,6 @@
+# SSH connection settings
+ssh:
+  live:
+    host:
+    user:
+    dir:

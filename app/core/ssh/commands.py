@@ -4,7 +4,7 @@
 from paramiko import SSHClient
 import typer
 
-from app.core.cli import utils as cli_utils
+from app.core.ssh import utils
 
 app = typer.Typer()
 client = SSHClient()
@@ -20,7 +20,7 @@ def exec(
 ):
     """Execute command on a remote server via ssh.
 
-    The configuration for executing a command on a remove server must be made in app/config.yml.
+    The configuration for executing a command on a remove server must be made in app/config/config.yml.
     Args:
         env (str): An environemt as specified in the ssh section of config.yml
         command (str, optional): The command that will be executed on the remote servier.
@@ -31,7 +31,7 @@ def exec(
     if env is None:
         typer.echo("Please select an environment.")
         raise typer.Abort()
-    full_config = cli_utils.get_config()
+    full_config = utils.get_ssh_config()
     if not full_config:
         typer.echo("Configuration not set.")
         raise typer.Abort()
