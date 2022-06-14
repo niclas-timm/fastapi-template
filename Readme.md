@@ -118,7 +118,7 @@ pip install -r requirements.txt
 
 ```
 cp .env .env.example
-cp config.example.yml config.yml
+cp app/config.example.yml app/config.yml
 ```
 
 and fill in the values in `.env` according to your needs.
