@@ -1,13 +1,13 @@
 # Controllers
 controllers:
-  - "app.core.user"
+  - app.core.user
 
 # SSH connection settings
 ssh:
   live:
-    host: "api.niclastimm.dev"
-    user: "root"
-    dir: "/var/www/fast-template"
+    host:
+    user:
+    dir:
 
 # CLI commands.
 commands:
