@@ -1,11 +1,15 @@
-from ctypes import Union
+# -------------------------------------------------------------------------------
+# Utility functions for the core cli functionality.
+# -------------------------------------------------------------------------------
 import importlib
 from typing import Any, Dict, List
 import yaml
 
+from app.core import config
+
 
 def get_config():
-    with open('app/config.yml') as stream:
+    with open(config.CONFIG_YML_PATH) as stream:
         try:
             return yaml.safe_load(stream)
         except yaml.YAMLError as exc:
@@ -14,7 +18,7 @@ def get_config():
 
 
 def get_command_settings():
-    with open('app/config.yml') as stream:
+    with open(config.CONFIG_YML_PATH) as stream:
         try:
             cli_commands: List[Dict[str, Any]] = []
             commands = yaml.safe_load(stream).get('commands')
