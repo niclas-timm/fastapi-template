@@ -5,6 +5,7 @@
 - Modular approach so modules can be shared accross different apps
 - Postgres DB connection
 - JWT authentication / authorization
+- YAML based configuration
 - RBAC (Role based access control)
 - Emails with Jinja2 templates
 - Slack notifications via Webhooks
@@ -28,6 +29,10 @@ This template is based on FastAPI. For more information see [https://fastapi.tia
 ## Modular approach
 
 The code is organized into modules in order to make things reusable accross projects. For example, all the code belonging to user logic (models, routes, services etc.) live in the `/app/core/user` direction. Similarly, code related to security lies in `/app/core/security`.
+
+## YAML based configuration
+
+Register CLI commands and controllers (FastAPI routers) via a central config.yml file. But no worries, there is an `.env` file for things like JWT secrets, too!
 
 ## Dockerization
 
@@ -71,7 +76,11 @@ The native Pyhton logging functionality comes preconfigured in order to log to a
 ## A CLI to interact with your app
 
 Sometimes you don't want to interact with your app via a REST endpoint but via the console. That's why the template comes with a CLI baked in that you can extend to your needs as your app grows.
-For example, you can execute `python cli user seed-super-user` to create a new super user.
+For example, you can execute `python cli user seed-super-user` to create a new super user. The template comes with some more cli commands out of the box:
+
+- Seeding a super user into the database
+- Creating / importing database backups
+- Executing commands via an SSH client on a remote server
 
 ## Database backups
 
@@ -90,7 +99,7 @@ There is a `.gitlab-ci.yml` file you can utilize for you CI/CD pipeline.
 There are multiple `docker-compose` files that serve the different requirements between development and production environments.
 The production environment is set up to work in Docker swarm mode with Traefik as an HTTPS provider and load balancer. Visit [https://dockerswarm.rocks/](https://dockerswarm.rocks/) to set up Docker in Swarm Mode with Traefik.
 
-# Checklist
+# Checklist to set up your new project
 
 - Create a virtual environment:
 
@@ -109,6 +118,7 @@ pip install -r requirements.txt
 
 ```
 cp .env .env.example
+cp config.example.yml config.yml
 ```
 
 and fill in the values in `.env` according to your needs.

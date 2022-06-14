@@ -1,7 +1,8 @@
-# Environment.
+# Environment and config.
 /venv
 .env
 todo.txt
+config.yml
 
 # Debugging.
 debug.log

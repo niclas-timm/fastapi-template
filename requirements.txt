@@ -21,3 +21,5 @@ aiohttp
 typer
 pytest
 pytest-asyncio
+paramiko
+pyyaml

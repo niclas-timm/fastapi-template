@@ -3,15 +3,18 @@
 # The app in the "start" method.
 # -------------------------------------------------------------------------------
 import typer
-from app.commands import cli_apps
+from app.core.cli.utils import get_command_settings
 
 app = typer.Typer()
-
-for cli_app in cli_apps:
-    """Register all sub command files."""
-    app.add_typer(cli_app["app"].app, name=cli_app["name"])
 
 
 def start():
     """Start the typer app."""
+    cli_apps = get_command_settings()
+    if not cli_apps:
+        print("Could not load settings")
+        return
+    for cli_app in cli_apps:
+        """Register all sub command files."""
+        app.add_typer(cli_app["app"].app, name=cli_app["name"])
     app()
