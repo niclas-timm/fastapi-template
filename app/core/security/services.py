@@ -1,13 +1,17 @@
-from jose import jwt
-from passlib.context import CryptContext
+"""
+Services related to the security package.
+"""
 from typing import Any, Union
+from passlib.context import CryptContext
+
+from jose import jwt
 from app.core.config import get_environment_var
 
 ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-def create_access_token(
+def create_jwt_access_token(
         subject: Union[str, Any]
 ) -> str:
     """ Generate user access token

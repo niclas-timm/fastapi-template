@@ -1,13 +1,16 @@
+"""
+Dependencies for the security package.
+"""
+from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from app.core import config
 from app.core.security.models import TokenData
-from sqlalchemy.orm import Session
-from app.core.db.db import get_db
 from app.core.user.services.crud import get_by_id
 from app.core.roles.roles import Roles
 from app.core.roles.guard import user_has_role
+from app.core.db.db import get_db
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 ALGORITHM = "HS256"
@@ -24,13 +27,24 @@ ROLE_EXEPTION = HTTPException(
 
 
 def get_user_from_jwt(db: Session, token: str, exception=CREDENTIALS_EXCEPTION):
+    """Get currently authenticated user from jwt token.
+
+    Args:
+        db (Session): The database session.
+        token (str): The jwt token.
+        exception (_type_, optional): If user not found or token not valid.
+
+    Returns:
+        User: The user object.
+    """
     try:
         secret = config.JWT_TOKEN
         payload = jwt.decode(token, secret, algorithms=[ALGORITHM])
         user_id: str = payload.get("sub")
         if user_id is None:
             raise exception
-        token_data = TokenData(id=user_id)
+        # Check if token is valid. Throws an exception if not.
+        TokenData(id=user_id)
     except JWTError:
         raise exception
     user = get_by_id(db, user_id=user_id)

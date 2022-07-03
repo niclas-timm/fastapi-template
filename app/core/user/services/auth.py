@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from app.core.user.services import crud
 from fastapi import HTTPException
-from app.core.security.services import create_access_token, verify_password
+from app.core.security.services import create_jwt_access_token, verify_password
 
 
 def user_login(db: Session, email: str, password: str) -> Optional[str]:
@@ -16,4 +16,4 @@ def user_login(db: Session, email: str, password: str) -> Optional[str]:
     is_password_valid = verify_password(password, user.password)
     if not is_password_valid:
         raise HTTPException(status_code=400, detail="Wrong email or password")
-    return create_access_token(str(user.id))
+    return create_jwt_access_token(str(user.id))

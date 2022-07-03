@@ -1,10 +1,14 @@
+"""
+Methods related to cors.
+"""
+from typing import List
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.core import config
-from typing import List
 
 
-def add_cors(app: FastAPI):
+def add_cors_middleware(app: FastAPI):
     """Add cors to the app object.
 
     Increase security of the app by adding cors.

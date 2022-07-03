@@ -17,7 +17,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-cors.add_cors(app)
+cors.add_cors_middleware(app)
 app.include_router(router)
 
 
