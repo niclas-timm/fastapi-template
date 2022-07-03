@@ -1,7 +1,11 @@
-from dotenv import load_dotenv
+"""
+Configuration variables that can be used accross the app.
+"""
 import os
-
 from typing import Optional
+
+from dotenv import load_dotenv
+
 
 load_dotenv()
 

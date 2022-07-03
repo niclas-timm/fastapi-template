@@ -1,3 +1,6 @@
+"""
+App entrypoint.
+"""
 from fastapi import FastAPI
 from app.core.db.db import engine
 from app import models
@@ -27,5 +30,5 @@ async def front():
 @app.on_event('startup')
 async def startup():
     """Enable response caching upon startup."""
-    r = setup.get_redis_instance()
+    r = setup.create_redis_connection()
     FastAPICache.init(RedisBackend(r), prefix="response-cache")

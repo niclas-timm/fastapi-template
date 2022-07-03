@@ -1,5 +1,5 @@
 {
-  "python.linting.enabled": true,
+  "python.linting.enabled": false,
   "python.testing.pytestArgs": ["."],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true

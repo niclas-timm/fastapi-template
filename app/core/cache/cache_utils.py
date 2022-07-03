@@ -9,7 +9,7 @@ from aioredis import Redis
 DEFAULT_EXPIRATION_IN_HOURS: int = 60 * 60 * 4
 
 
-async def get_cache_key(r: Redis, key: str):
+async def get_cache_key(redis: Redis, key: str):
     """Get value for a given cache key
 
     Args:
@@ -19,13 +19,13 @@ async def get_cache_key(r: Redis, key: str):
     Returns:
         (Any | None): The value for the cache key.
     """
-    value = await r.get(key)
+    value = await redis.get(key)
     if value is None:
         return None
     return value.decode("utf-8")
 
 
-async def set_cache_key(r: Redis, key: str, value: str, timeout: int = DEFAULT_EXPIRATION_IN_HOURS) -> None:
+async def set_cache_key(redis: Redis, key: str, value: str, timeout: int = DEFAULT_EXPIRATION_IN_HOURS) -> None:
     """Set new cache key in Redis.
 
     Add new cache key to redis.
@@ -38,15 +38,15 @@ async def set_cache_key(r: Redis, key: str, value: str, timeout: int = DEFAULT_E
         timeout (int, optional): Time in seconds for how long the cache key will be valid
         . Defaults to 4 hours.
     """
-    await r.set(key, value)
-    await r.expire(key, timeout)
+    await redis.set(key, value)
+    await redis.expire(key, timeout)
 
 
-async def remove_cache_key(r: Redis, key: str) -> None:
+async def remove_cache_key(redis: Redis, key: str) -> None:
     """Remove key from redis cache.
 
     Args:
         r (Redis): The redis instance.
         key (str): The key that will be removed from the cache.
     """
-    await r.delete(key)
+    await redis.delete(key)
