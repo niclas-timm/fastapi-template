@@ -1,7 +1,11 @@
-from sqlalchemy.orm import Session
+"""
+User authentication service.
+"""
 from typing import Optional
-from app.core.user.services import crud
+from sqlalchemy.orm import Session
 from fastapi import HTTPException
+
+from app.core.user.services import crud
 from app.core.security.services import create_jwt_access_token, verify_password
 
 

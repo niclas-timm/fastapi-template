@@ -1,5 +1,6 @@
-from ctypes import Union
-from fastapi import HTTPException
+"""
+Utility methods for the users package.
+"""
 from typing import Union
 
 from app.core.user import schema
@@ -9,7 +10,7 @@ from app.core.security.services import create_password_hash
 
 
 def create_user_object(new_user: schema.UserCreate) -> Union[UserModel, str]:
-    is_password_valid = password.password_requirements_check(new_user.password)
+    is_password_valid = password.check_password_strength(new_user.password)
     if is_password_valid["error"]:
         return "Invalid password"
     db_obj = UserModel(

@@ -70,7 +70,7 @@ def change_password(db: Session, email: str, new_pass: str):
     user = db.query(UserModel).filter(UserModel.email == email).first()
     if not user:
         return {"error": True, "msg": "User not found."}
-    is_password_valid = password_requirements_check(new_pass)
+    is_password_valid = check_password_strength(new_pass)
     if is_password_valid["error"]:
         return {"error": True, "msg": is_password_valid["msg"]}
     hashed_pass = create_password_hash(new_pass)
@@ -80,7 +80,7 @@ def change_password(db: Session, email: str, new_pass: str):
     return True
 
 
-def password_requirements_check(password: str) -> Dict[str, Any]:
+def check_password_strength(password: str) -> Dict[str, Any]:
     """Password rules
 
     Check if a password meets a list of requirements:

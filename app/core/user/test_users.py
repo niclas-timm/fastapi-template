@@ -1,9 +1,7 @@
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
-import json
 
 from app.core.user.services import crud
-from app.core.user import schema as user_schemas
 from app.core.user.services import crud
 from fastapi.testclient import TestClient
 
@@ -11,7 +9,7 @@ TEST_USER_EMAIL = EmailStr("testuser@email.com")
 
 
 def test_get_superuser(db: Session):
-    user = crud.get_by_attribute(db, 'is_superuser', True)
+    user = crud.get_user_by_attribute(db, 'is_superuser', True)
     if not user:
         assert False
     assert user.password

@@ -1,3 +1,7 @@
+"""
+Verification service for the users package.
+"""
+
 from datetime import datetime, timedelta
 from typing import Optional
 from app.core import config as settings

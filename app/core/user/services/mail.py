@@ -16,7 +16,7 @@ def send_new_account_email(email_to: str) -> None:
     """
     project_name = config.PROJECT_NAME
     subject = f"{project_name} - Verify your account"
-    with open(Path(config.EMAIL_TEMPLATES_DIR) / "new_account.html") as f:
+    with open(Path(config.EMAIL_TEMPLATES_DIR) / "new_account.html", encoding='utf-8') as f:
         template_str = f.read()
     token = generate_email_verification_token(email=email_to)
     link = f"{config.SERVER_HOST}/email/verify?token={token}"
@@ -44,7 +44,7 @@ def send_reset_password_email(email_to: str, token: str) -> None:
     """
     project_name = config.PROJECT_NAME
     subject = f"{project_name} - Password recovery for user {email_to}"
-    with open(Path(config.EMAIL_TEMPLATES_DIR) / "reset_password.html") as f:
+    with open(Path(config.EMAIL_TEMPLATES_DIR) / "reset_password.html", encoding='utf-8') as f:
         template_str = f.read()
     server_host = config.SERVER_HOST
     link = f"{server_host}/reset-password?token={token}"

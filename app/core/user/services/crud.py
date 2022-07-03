@@ -4,15 +4,13 @@ from typing import Any, Optional
 from app.core.user.model import UserModel
 from app.core.user.schema import UserCreate
 from sqlalchemy.orm import Session
-from app.core.security.services import create_password_hash
 from app.core.user.services import mail as user_mail_service
-from app.core.user.services import password
 from sqlalchemy import exc
 from app.core import config
 from app.core.user.services import utils as user_utils
 
 
-def get_by_attribute(db: Session, attribute: str, value: Any) -> Optional[UserModel]:
+def get_user_by_attribute(db: Session, attribute: str, value: Any) -> Optional[UserModel]:
     """Get user by an attribute.
 
     Args:
@@ -37,7 +35,7 @@ def get_by_id(db: Session, user_id: str) -> Optional[UserModel]:
     Returns:
         Optional[UserModel]: The user.
     """
-    return get_by_attribute(db, 'id', user_id)
+    return get_user_by_attribute(db, 'id', user_id)
 
 
 def get_by_email(db: Session, email: str) -> Optional[UserModel]:
@@ -50,7 +48,7 @@ def get_by_email(db: Session, email: str) -> Optional[UserModel]:
     Returns:
         Optional[UserModel]: The user object.
     """
-    return get_by_attribute(db, 'email', email)
+    return get_user_by_attribute(db, 'email', email)
 
 
 def create_user(db: Session, new_user: UserCreate):
