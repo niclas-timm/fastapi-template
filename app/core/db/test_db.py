@@ -8,7 +8,10 @@ client = TestClient(app)
 
 
 class TestDB:
+    """Database test class."""
+
     def test_db_connection(self):
+        """Test database connection."""
         session = db.SessionLocal()
         assert isinstance(session, Session)
         session.close()

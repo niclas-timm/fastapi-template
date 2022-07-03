@@ -1,9 +1,13 @@
-import typer
-from app.core.db import db
-from app.core import config
+
+"""
+CLI commands to interact with the database.
+"""
 import os
 import subprocess
 from datetime import datetime
+import typer
+
+from app.core import config
 
 OUTPUT_DIR = "dumps"
 
@@ -11,7 +15,7 @@ app = typer.Typer()
 
 
 @app.command()
-def create_dump(container_name: str = typer.Option(default=None, help="The name of the postgres container.")):
+def create_database_dump(container_name: str = typer.Option(default=None, help="The name of the postgres container.")):
     """Create a dump of the postgres database.
 
     Create a SQL dump of the local database and store it in the /dumps directory
@@ -35,8 +39,8 @@ def create_dump(container_name: str = typer.Option(default=None, help="The name 
 
 
 @app.command()
-def import_dump(container_name: str = typer.Option(default=None, help="The name of the postgres container."),
-                file_name: str = typer.Option(
+def import_database_dump(container_name: str = typer.Option(default=None, help="The name of the postgres container."),
+                         file_name: str = typer.Option(
     default=None, help="The name of the file that lives in the /dumps directory.")
 ):
     user = config.DB_USERNAME

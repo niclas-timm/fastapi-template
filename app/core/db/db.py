@@ -1,12 +1,9 @@
-# -------------------------------------------------------------------------------
-# Manage database connection settings.
-# -------------------------------------------------------------------------------
-import os
-from dotenv import load_dotenv
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
+"""
+Manage database connection settings.
+"""
 from sqlalchemy.orm import sessionmaker
-from pathlib import Path
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
 
 from app.core import config
 
@@ -20,7 +17,7 @@ def get_db():
     """Get database session.
 
     Yields:
-        _sessionmaker_: The database session. 
+        _sessionmaker_: The database session.
     """
     db = SessionLocal()
     try:
