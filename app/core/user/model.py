@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, Integer, String
 
 from app.core.db.db import Base
-from app.core.roles.roles_config import default_role
+from app.core.roles.roles_config import DEFAULT_ROLE
 
 
 class UserModel(Base):
@@ -13,7 +13,7 @@ class UserModel(Base):
     is_active = Column(Boolean, default=True)
     is_superuser = Column(Boolean, default=False)
     email_verified = Column(Boolean, default=False)
-    roles = Column(String, default=default_role)
+    roles = Column(String, default=DEFAULT_ROLE)
 
     class Config:
         orm_mode = True

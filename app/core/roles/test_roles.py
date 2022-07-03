@@ -16,4 +16,4 @@ def test_admin_role(db: Session):
     admin_user = get_by_id(db, "1")
     if not admin_user:
         assert False
-    assert guard.has_role(admin_user, [roles.Roles.ADMIN.value])
+    assert guard.user_has_role(admin_user, [roles.Roles.ADMIN.value])

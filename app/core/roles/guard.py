@@ -1,14 +1,14 @@
-# -------------------------------------------------------------------------------
-# Set of guards that can be used as dependencies in order to allow access
-# based on the role of the current user.
-# -------------------------------------------------------------------------------
+"""
+Set of guards that can be used as dependencies in order to allow access
+based on the role of the current user.
+"""
 from typing import List
 
 from app.core.user.model import UserModel
 from .roles import Roles
 
 
-def has_role(user: UserModel, required_roles: List[str]) -> bool:
+def user_has_role(user: UserModel, required_roles: List[str]) -> bool:
     """Check if a user has at least on of the specified roles.
 
     Check if the user user has at least one of the roles that
@@ -24,9 +24,9 @@ def has_role(user: UserModel, required_roles: List[str]) -> bool:
     """
     if Roles.ADMIN.value in user.roles:
         return True
-    user_has_role = False
+    has_role = False
     for required_role in required_roles:
         if required_role in user.roles:
-            user_has_role = True
+            has_role = True
             break
-    return user_has_role
+    return has_role

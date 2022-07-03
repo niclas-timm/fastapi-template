@@ -1,6 +1,6 @@
-# -------------------------------------------------------------------------------
-# Utility function for working with roles.
-# -------------------------------------------------------------------------------
+"""
+Utility function for working with roles.
+"""
 
 from typing import List, Union
 from .roles import Roles
@@ -15,6 +15,7 @@ def are_roles_valid(roles: Union[List[str], str]):
     Returns:
         bool: True if all given roles are valid.
     """
+    # Convert roles into a list, if it isn't already.
     roles_to_be_checked = roles if isinstance(
         roles, list) else list(roles.split(","))
     available_roles = set(role.value for role in Roles)

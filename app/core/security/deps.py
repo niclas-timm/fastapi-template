@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from app.core.db.db import get_db
 from app.core.user.services.crud import get_by_id
 from app.core.roles.roles import Roles
-from app.core.roles.guard import has_role
+from app.core.roles.guard import user_has_role
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 ALGORITHM = "HS256"
@@ -74,7 +74,7 @@ async def admin_guard(db: Session = Depends(get_db), token: str = Depends(oauth2
         User: The current user.
     """
     user = get_user_from_jwt(db, token)
-    has_access = has_role(user=user, required_roles=[Roles.ADMIN.value])
+    has_access = user_has_role(user=user, required_roles=[Roles.ADMIN.value])
     if not has_access:
         raise ROLE_EXEPTION
     return user
