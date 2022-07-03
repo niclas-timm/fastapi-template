@@ -1,3 +1,7 @@
+"""
+Schemas related to the user package.
+"""
+
 from typing import Optional
 from pydantic import BaseModel, EmailStr
 

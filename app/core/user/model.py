@@ -1,3 +1,7 @@
+"""
+Models related to the user package.
+"""
+
 from sqlalchemy import Boolean, Column, Integer, String
 
 from app.core.db.db import Base
@@ -5,6 +9,7 @@ from app.core.roles.roles_config import DEFAULT_ROLE
 
 
 class UserModel(Base):
+    """The user mode class."""
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
@@ -16,4 +21,5 @@ class UserModel(Base):
     roles = Column(String, default=DEFAULT_ROLE)
 
     class Config:
+        """Config class for the user model."""
         orm_mode = True

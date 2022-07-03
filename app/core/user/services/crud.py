@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from typing import Any, Optional
+from typing import Any, Optional, Literal
 
 from app.core.user.model import UserModel
 from app.core.user.schema import UserCreate
@@ -126,3 +126,13 @@ def create_superuser(db: Session, new_user: UserCreate):
     if config.EMAILS_ENABLED:
         user_mail_service.send_new_account_email(db_obj.email)
     return db_obj
+
+
+def verify_user_email(db: Session, email: str) -> Optional[Literal[True]]:
+    user = get_by_email(email=email, db=db)
+    if not user:
+        return None
+    user.email_verified = True
+    db.commit()
+    db.refresh(user)
+    return True

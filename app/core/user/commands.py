@@ -1,3 +1,7 @@
+"""
+Commands related to the user package.
+"""
+
 from pydantic import EmailStr
 import typer
 from app.core.db import db
@@ -12,7 +16,7 @@ app = typer.Typer()
 
 
 @app.command()
-def by_mail(email: str = typer.Option(default=None, help="The email address of the user")):
+def get_by_mail(email: str = typer.Option(default=None, help="The email address of the user")):
     session = db.SessionLocal()
     user = crud.get_by_email(session, email)
     if not user:
@@ -46,6 +50,6 @@ def seed_super_user():
     if not user:
         typer.echo("Could not create user")
         raise typer.Abort()
-    roles.add_roles(db=session, user_id=str(
+    roles.add_roles_to_user(db=session, user_id=str(
         user.id), new_roles=[roles_def.Roles.ADMIN.value])
     typer.echo(f"User successfully created with the id {user.id}")

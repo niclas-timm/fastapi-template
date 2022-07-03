@@ -1,3 +1,6 @@
+"""
+Methdods related to roles of users.
+"""
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.core.roles.utils import are_roles_valid
@@ -5,7 +8,7 @@ from typing import List
 from app.core.user.services.crud import get_by_id
 
 
-def add_roles(db: Session, user_id: str, new_roles: List[str]):
+def add_roles_to_user(db: Session, user_id: str, new_roles: List[str]):
     """Add new roles to a user.
 
     Args:

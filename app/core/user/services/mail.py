@@ -1,8 +1,50 @@
+from typing import Optional
 from app.core import config
 from app.core.notifications.mail import sender
 from pathlib import Path
-from .verification import generate_email_verification_token
 from app.core import config
+from datetime import datetime, timedelta
+from jose import jwt, JWTError
+
+
+def generate_email_verification_token(email: str) -> str:
+    """Generate token for email verification.
+
+    Generate a jwt token with a short expiration time with
+    an email address as the sub. The token will be sent via email
+    in order to verify the users email.
+
+    Args:
+        email (str): The email that will be the sub of the token.
+
+    Returns:
+        str: The token.
+    """
+    delta = timedelta(hours=config.EMAIL_RESET_TOKEN_EXPIRE_HOURS)
+    now = datetime.utcnow()
+    expires = now + delta
+    exp = expires.timestamp()
+    encoded_jwt = jwt.encode(
+        {"exp": exp, "nbf": now, "sub": email}, config.JWT_EMAIL_VERIFICATION_TOKEN, algorithm="HS256",
+    )
+    return encoded_jwt
+
+
+def verify_email_token(token: str) -> Optional[str]:
+    """Verify email verification token.
+
+    Args:
+        token (str): The token to be verified.
+
+    Returns:
+        Optional[str]: If token is valid, the sub (email) from the token.
+    """
+    try:
+        decoded = jwt.decode(
+            token, config.JWT_EMAIL_VERIFICATION_TOKEN, algorithms="HS256")
+        return decoded["sub"]
+    except JWTError:
+        return None
 
 
 def send_new_account_email(email_to: str) -> None:
