@@ -1,6 +1,6 @@
-# -------------------------------------------------------------------------------
-# Shell commands to execute commands on a remove server via ssh.
-# -------------------------------------------------------------------------------
+"""
+Shell commands to execute commands on a remove server via ssh.
+"""
 from paramiko import SSHClient
 import typer
 
@@ -11,11 +11,11 @@ client = SSHClient()
 
 
 @app.command()
-def exec(
+def execute(
         env: str,
         command: str = typer.Option(
             default=None, help="The command you want to execute on the remote system."),
-        dir: str = typer.Option(
+        directory: str = typer.Option(
         default=None, help="The directory on the server the command will be executed in. If not specified, the directory from config.yml will be used.")
 ):
     """Execute command on a remote server via ssh.
@@ -46,7 +46,7 @@ def exec(
             continue
         client.connect(values.get('host'),
                        username=values.get('user'))
-        execution_dir = dir or values.get('dir')
+        execution_dir = directory or values.get('dir')
         stdin, stdout, stderr = client.exec_command(
             f"cd {execution_dir} && {command}")
         if stderr.readlines():
