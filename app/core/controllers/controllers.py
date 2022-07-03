@@ -2,6 +2,6 @@
 # Creating a FastAPI APIRouter with all controllers registered in config.yml
 # as sub routers.
 # -------------------------------------------------------------------------------
-from app.core.controllers.controller_discoverer import get_partial_routers
+from app.core.controllers.controller_discoverer import register_all_controllers
 
-router = get_partial_routers()
+router = register_all_controllers()
