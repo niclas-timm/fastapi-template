@@ -1,11 +1,12 @@
 # -------------------------------------------------------------------------------
 # Manage SMTP configuration and helper methods for sending email.
 # -------------------------------------------------------------------------------
-import emails
-from emails.template import JinjaTemplate
-from app.core import config
 from typing import Any, Dict
 from pathlib import Path
+import emails
+from emails.template import JinjaTemplate
+
+from app.core import config
 
 
 def send_email(
@@ -52,7 +53,7 @@ def send_test_email(email_to: str) -> None:
     """
     project_name = "Fast API template"
     subject = f"{project_name} - Test email"
-    with open(Path(config.EMAIL_TEMPLATES_DIR) / "test_email.html") as f:
+    with open(Path(config.EMAIL_TEMPLATES_DIR) / "test_email.html", encoding='utf-8') as f:
         template_str = f.read()
     send_email(
         email_to=email_to,
