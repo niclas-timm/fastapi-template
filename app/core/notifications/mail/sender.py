@@ -1,6 +1,6 @@
-# -------------------------------------------------------------------------------
-# Manage SMTP configuration and helper methods for sending email.
-# -------------------------------------------------------------------------------
+"""
+Manage SMTP configuration and helper methods for sending email.
+"""
 from typing import Any, Dict
 from pathlib import Path
 import emails

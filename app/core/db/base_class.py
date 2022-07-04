@@ -1,6 +1,6 @@
-# -------------------------------------------------------------------------------
-# Declare structure of the base class for sqlalchemy.
-# -------------------------------------------------------------------------------
+"""
+Declare structure of the base class for sqlalchemy.
+"""
 
 from typing import Any
 

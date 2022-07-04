@@ -7,7 +7,7 @@ from app.core.db import db
 from app.core.user import schema as user_schema
 from app.core.user.services import crud, auth, mail
 from app.core.user.model import UserModel
-from app.core.security.deps import get_current_user, admin_guard
+from app.core.security.deps import get_current_user
 from fastapi.security import OAuth2PasswordRequestForm
 from app.core.security.models import TokenModel
 from app.core.user.services.roles import add_roles_to_user

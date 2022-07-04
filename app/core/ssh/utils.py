@@ -1,4 +1,9 @@
+"""
+Utilities for the SSH package.
+"""
+
 import yaml
+
 SSH_CONFIG_PATH = "app/config/ssh.config.yml"
 
 

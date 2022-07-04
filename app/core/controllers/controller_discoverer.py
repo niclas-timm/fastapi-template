@@ -1,7 +1,7 @@
-# -------------------------------------------------------------------------------
-# Functionality for discovering all controllers following the configuration
-# in the config.yml file.
-# -------------------------------------------------------------------------------
+"""
+Functionality for discovering all controllers following the configuration
+in the config.yml file.
+"""
 import importlib
 from typing import Any, List
 from fastapi import APIRouter

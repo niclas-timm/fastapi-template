@@ -9,7 +9,7 @@ from typing import Generator
 
 from app.main import app
 from app.core.db.db import SessionLocal
-from app.core.cache.setup import get_redis_instance
+from app.core.cache.setup import create_redis_connection
 
 
 @pytest.fixture(scope="session")
@@ -19,7 +19,7 @@ def db() -> Generator:
 
 @pytest.fixture(scope="session")
 def cache() -> Generator:
-    yield get_redis_instance()
+    yield create_redis_connection()
 
 
 @pytest.fixture(scope="module")

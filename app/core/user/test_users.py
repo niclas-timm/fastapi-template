@@ -2,7 +2,6 @@ from pydantic import EmailStr
 from sqlalchemy.orm import Session
 
 from app.core.user.services import crud
-from app.core.user.services import crud
 from fastapi.testclient import TestClient
 
 TEST_USER_EMAIL = EmailStr("testuser@email.com")

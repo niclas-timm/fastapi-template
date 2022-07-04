@@ -2,7 +2,6 @@ from typing import Optional
 from app.core import config
 from app.core.notifications.mail import sender
 from pathlib import Path
-from app.core import config
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
 
